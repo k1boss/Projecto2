@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -29,8 +30,14 @@ public class Projecto {
     private static final String PERSISTENCE_UNIT_NAME = "ProjectoPU";
     private static EntityManagerFactory factory;
     
-    public static void main(String[] args) {
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+  //  public static void main(String[] args) {
+  //      
+  //      Connection conn = Util.criarConexao();
+  //      if(conn != null)
+  //      {
+  //          System.out.println("ok!!!");
+  //      }
+        /*factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
             EntityManager em = factory.createEntityManager();
             
             Cliente cli1 = new Cliente();
@@ -58,7 +65,7 @@ public class Projecto {
             for(Pagamento pag : cli151.getPagamentoList())
             {
                 System.out.println(pag.getIdPagamento() + " " + pag.getIdCliente() + " " + pag.getValor() + "€" + " " + pag.getData());
-            }
-    }
+            }*/
+    //}
     
 }

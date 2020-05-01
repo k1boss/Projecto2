@@ -33,7 +33,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Cliente.findByIdCliente", query = "SELECT c FROM Cliente c WHERE c.idCliente = :idCliente"),
     @NamedQuery(name = "Cliente.findByNome", query = "SELECT c FROM Cliente c WHERE c.nome = :nome"),
     @NamedQuery(name = "Cliente.findByNif", query = "SELECT c FROM Cliente c WHERE c.nif = :nif"),
-    @NamedQuery(name = "Cliente.findByEmail", query = "SELECT c FROM Cliente c WHERE c.email = :email")})
+    @NamedQuery(name = "Cliente.findByEmail", query = "SELECT c FROM Cliente c WHERE c.email = :email"),
+    @NamedQuery(name = "Cliente.findByPasswd", query = "SELECT c FROM Cliente c WHERE c.passwd = :passwd"),
+    @NamedQuery(name = "Cliente.findByUsername", query = "SELECT c FROM Cliente c WHERE c.username = :username")})
 public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,6 +52,12 @@ public class Cliente implements Serializable {
     private BigInteger nif;
     @Column(name = "EMAIL")
     private String email;
+    @Basic(optional = false)
+    @Column(name = "PASSWD")
+    private String passwd;
+    @Basic(optional = false)
+    @Column(name = "USERNAME")
+    private String username;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente")
     private List<Pagamento> pagamentoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente")
@@ -62,10 +70,12 @@ public class Cliente implements Serializable {
         this.idCliente = idCliente;
     }
 
-    public Cliente(BigDecimal idCliente, String nome, BigInteger nif) {
+    public Cliente(BigDecimal idCliente, String nome, BigInteger nif, String passwd, String username) {
         this.idCliente = idCliente;
         this.nome = nome;
         this.nif = nif;
+        this.passwd = passwd;
+        this.username = username;
     }
 
     public BigDecimal getIdCliente() {
@@ -98,6 +108,22 @@ public class Cliente implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPasswd() {
+        return passwd;
+    }
+
+    public void setPasswd(String passwd) {
+        this.passwd = passwd;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @XmlTransient
