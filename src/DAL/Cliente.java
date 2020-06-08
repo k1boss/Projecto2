@@ -8,6 +8,7 @@ package DAL;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.sql.Statement;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -36,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Cliente.findByEmail", query = "SELECT c FROM Cliente c WHERE c.email = :email"),
     @NamedQuery(name = "Cliente.findByPasswd", query = "SELECT c FROM Cliente c WHERE c.passwd = :passwd"),
     @NamedQuery(name = "Cliente.findByUsername", query = "SELECT c FROM Cliente c WHERE c.username = :username")})
+    
 public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -168,5 +170,8 @@ public class Cliente implements Serializable {
     public String toString() {
         return "DAL.Cliente[ idCliente=" + idCliente + " ]";
     }
+    
+    
+    
     
 }
