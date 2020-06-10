@@ -9,6 +9,7 @@ import GUI.Main;
 import javafx.event.ActionEvent;
 import Logic.Logic;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -21,6 +22,7 @@ public class LoginController
 {
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
+    @FXML private Label loginErrorLabel;
     
 
     
@@ -34,10 +36,36 @@ public class LoginController
     public void loginButtonAction(ActionEvent event) throws Exception
     {
         //Verificar o login
+        boolean exists = Logic.userExists(usernameField.getText());
         
-        Logic.login(usernameField.getText(),passwordField.getText());
+        if(exists)
+        {
+            boolean loggedIn = Logic.login(usernameField.getText(),passwordField.getText());
         
-        //Mudar scene
+            if(loggedIn)
+            {
+                Main.createStage("Sucesso", "/GUI/resources/LoginSuccess.fxml");
+                
+                
+                //Mudar scene
+                
+                Main.changeScene("/GUI/resources/EscolherEstabelecimento.fxml");
+            }
+            else
+            {
+                loginErrorLabel.setText("Password Errada.");
+                loginErrorLabel.setVisible(true);
+            }
+        }
+        else
+        {
+            loginErrorLabel.setText("Utilizador não existe.");
+            loginErrorLabel.setVisible(true);
+        }
+        
+        
+        
+        
         
         
     }

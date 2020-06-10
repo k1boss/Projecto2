@@ -7,13 +7,15 @@
 package Logic;
 import DAL.Cliente;
 import java.math.BigInteger;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-
-
-
 
 
 /**
@@ -29,7 +31,7 @@ public class Logic {
     
     
     
-    public static boolean login(String username, String password ) throws Exception
+    public static boolean login(String username, String password )
     {
         boolean loggedIn = false;
         Cliente cli = null;
@@ -41,48 +43,73 @@ public class Logic {
         Query getUser = em.createNamedQuery("Cliente.findByUsername");
         getUser.setParameter("username", username);
         
-        Object res;
-        res = (Object) getUser.getSingleResult();
+        try
+        {
+            Object res;
+            res = (Object) getUser.getSingleResult();
        
-        if(res != null)
-        {
-            cli = (Cliente) res;
-            if(cli.getPasswd().equals(password))
-            {
-                loggedIn = true;
-             System.out.println("login ok!!");
-            }
-            else
-            {
-                throw new Exception("Password Errada");
-            }
-           
+            if(res != null)
+             {
+                 cli = (Cliente) res;
+                 if(cli.getPasswd().equals(password))
+                 {
+                     loggedIn = true;
+                  System.out.println("login ok!!");
+                 }
+                 else
+                 {
+                     loggedIn = false;
+                     System.out.println("Password Errada");
+                 }
+
+             }
         }
-        else
+        catch(Exception e)
         {
-            throw new Exception("Nao existe nenhum utilizador ");
+            System.out.println("Nao existe nenhum utilizador");
+            loggedIn = false;
         }
-        
-        
         
         return loggedIn;
-            
-           
+        
     }
     
-    /*public static void insertCliente(Cliente cliente)
+    public static boolean userExists(String username)
     {
+        boolean exists ;
+        
+        
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
         
-        em.("INSERT INTO Cliente(nome, email, username, nif, passwd) VALUES(?,?,?,?,?)")
-                .setParameter(1, cliente.getNome())
-                .setParameter(2, cliente.getEmail())
-                .setParameter(3, cliente.getUsername())
-                .setParameter(4, cliente.getNif())
-                .setParameter(5, cliente.getPasswd())
-                .executeUpdate();
-    }*/
+        
+        Query getUser = em.createNamedQuery("Cliente.findByUsername");
+        getUser.setParameter("username", username);
+        
+        try
+        {
+            Object res;
+            res = (Object) getUser.getSingleResult();
+            if(res != null)
+            {
+                exists = true;
+            }
+            else
+            {
+                exists = false;
+            }
+        }
+        catch(Exception e)
+        {
+            exists = false;
+        }
+        
+        
+        
+        
+        
+        return exists;
+    }
 
     public static void insertCliente(Cliente cliente)
     {
@@ -93,6 +120,25 @@ public class Logic {
         em.persist(cliente);
         em.getTransaction().commit();
 
+    }
+    
+    public static  ObservableList nomesEstabelecimentos()
+    {
+        ObservableList<String> results = null;
+        
+        
+        
+        
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Query getEstabelecimentos = em.createNamedQuery("Estabelecimento.findAllNomes");
+        List<String> nomes = getEstabelecimentos.getResultList();
+        
+        results = FXCollections.observableArrayList(nomes);
+        
+        
+        return results;
     }
     
     

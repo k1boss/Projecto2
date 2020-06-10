@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import Logic.Logic;
 import java.math.BigInteger;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 /**
@@ -26,6 +27,7 @@ public class RegistarController
     @FXML private TextField emailField;
     @FXML private TextField nifField;
     @FXML private TextField nomeField;
+    @FXML private Label registarFailedLabel;
     
             
     public void voltarButtonAction(ActionEvent event) throws Exception
@@ -33,22 +35,37 @@ public class RegistarController
         Main.changeScene("/GUI/resources/Login.fxml");
     }
     
-    public void registarButtonAction(ActionEvent event)
+    public void registarButtonAction(ActionEvent event) throws Exception
     {
+        //Fazer o registo
         BigInteger nif;
-        nif = BigInteger.valueOf(Integer.parseInt(nifField.getText()));
+        if(!Logic.userExists(usernameField.getText()))
+        {
+            nif = BigInteger.valueOf(Integer.parseInt(nifField.getText()));
         
-        Cliente cliente = new Cliente();
+            Cliente cliente = new Cliente();
+
+
+            cliente.setNome(nomeField.getText());
+            cliente.setUsername(usernameField.getText());
+            cliente.setEmail(emailField.getText());
+            cliente.setNif(nif);
+            cliente.setPasswd(passwordField.getText());
+            
+            Logic.insertCliente(cliente);
+            
+            //mudar a scene
+            Main.changeScene("/GUI/resources/Login.fxml");
+            
+            //criar stage de sucesso
+            Main.createStage("Registo feito com Sucesso", "/GUI/resources/RegistarSuccess.fxml");
+        }
+        else
+        {
+            registarFailedLabel.setText("Username ja existe.");
+            registarFailedLabel.setVisible(true);
+        }
         
         
-        cliente.setNome(nomeField.getText());
-        cliente.setUsername(usernameField.getText());
-        cliente.setEmail(emailField.getText());
-        cliente.setNif(nif);
-        cliente.setPasswd(passwordField.getText());
-        System.out.println("1");
-        
-        Logic.insertCliente(cliente);
-        System.out.println("2");
     }
 }

@@ -7,12 +7,17 @@ package GUI;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Statement;
+import java.util.List;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import projecto.Util;
 
 /**
@@ -28,9 +33,11 @@ public class Main  extends Application{
     static private Stage primaryStage;
     static private Class clazz;
     
+    
     public static void main(String[] args) {
         Connection conn = Util.criarConexao();
         launch(args);
+        
     }
 
     @Override
@@ -59,14 +66,18 @@ public class Main  extends Application{
         primaryStage.getScene().setRoot(pane);
     }
     
-    public void createStage(String label, String fxml) throws Exception
+    public static void createStage(String label, String fxml) throws Exception
     {
         Stage newStage = new Stage();
         newStage.setTitle(label);
         
         Parent pane = FXMLLoader.load(clazz.getResource(fxml));
-        newStage.getScene().setRoot(pane);
+        Scene newScene = new Scene(pane);
+        newStage.setScene(newScene);
+        
+        newStage.show();
         
     }
+    
     
 }

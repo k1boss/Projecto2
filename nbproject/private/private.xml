@@ -3,13 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/GUI/controllers/LoginSuccessController.java</file>
+            <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/DAL/Estabelecimento.java</file>
             <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/projecto/Projecto.java</file>
+            <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/GUI/resources/RegistarSuccess.fxml</file>
+            <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/GUI/controllers/RegistarSuccessController.java</file>
+            <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/GUI/resources/LoginSuccess.fxml</file>
             <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/GUI/controllers/RegistarController.java</file>
             <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/Logic/Logic.java</file>
+            <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/GUI/controllers/EscolherEstabelecimentoController.java</file>
             <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/projecto/Util.java</file>
             <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/GUI/controllers/LoginController.java</file>
             <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/GUI/Main.java</file>
-            <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/DAL/Cliente.java</file>
         </group>
     </open-files>
 </project-private>
