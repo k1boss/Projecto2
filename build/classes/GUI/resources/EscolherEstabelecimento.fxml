@@ -6,8 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="GUI.controllers.EscolherEstabelecimentoController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.controllers.EscolherEstabelecimentoController">
    <children>
       <GridPane prefHeight="312.0" prefWidth="600.0">
         <columnConstraints>
@@ -32,7 +31,7 @@
         </rowConstraints>
          <children>
             <Button fx:id="logoutBtn" maxHeight="50.0" maxWidth="100.0" mnemonicParsing="false" onAction="#logoutBtnAction" text="Log Out" GridPane.halignment="CENTER" />
-            <Button fx:id="escolherBtn" maxHeight="50.0" maxWidth="100.0" mnemonicParsing="false" text="Escolher" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <Button fx:id="escolherBtn" maxHeight="50.0" maxWidth="100.0" mnemonicParsing="false" onAction="#escolherBtnAction" text="Escolher" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
          </children>
       </GridPane>
    </children>

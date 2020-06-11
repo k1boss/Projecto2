@@ -20,9 +20,9 @@ import javafx.scene.control.ListView;
  */
 public class EscolherEstabelecimentoController{
     
-    @FXML ListView estabelecimentosList;
-    @FXML Button logoutBtn;
-    @FXML Button escolherBtn;
+    @FXML private ListView estabelecimentosList;
+    @FXML private Button logoutBtn;
+    @FXML private Button escolherBtn;
     
     @FXML
     public void initialize()
@@ -44,9 +44,14 @@ public class EscolherEstabelecimentoController{
         Main.changeScene("/GUI/resources/Login.fxml");
     }
     
-    public void escolherBtnAction(ActionEvent event)
+    public void escolherBtnAction(ActionEvent event) throws Exception
     {
+        //Seleccionar Estabelecimento
+        String nome = estabelecimentosList.getSelectionModel().getSelectedItem().toString();
+        Logic.escolherEstabelecimento(nome);
         
+        //Mudar Scene
+        Main.changeScene("/GUI/resources/EscolherMesa.fxml");
     }
  
     

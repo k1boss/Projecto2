@@ -6,10 +6,12 @@
  */
 package Logic;
 import DAL.Cliente;
+import DAL.Estabelecimento;
 import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javax.persistence.EntityManager;
@@ -28,6 +30,8 @@ public class Logic {
     
     private static final String PERSISTENCE_UNIT_NAME = "ProjectoPU";
     private static EntityManagerFactory factory;
+    private static Cliente loggedCliente;
+    private static Estabelecimento selectedEstab;
     
     
     
@@ -55,6 +59,7 @@ public class Logic {
                  {
                      loggedIn = true;
                   System.out.println("login ok!!");
+                  loggedCliente = cli;
                  }
                  else
                  {
@@ -139,6 +144,51 @@ public class Logic {
         
         
         return results;
+    }
+    
+    public static void escolherEstabelecimento(String nomeEstabelecimento)
+    {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        Query getEstabelecimento = em.createNamedQuery("Estabelecimento.findByNome");
+        getEstabelecimento.setParameter("nome", nomeEstabelecimento);
+        
+        selectedEstab =(Estabelecimento) getEstabelecimento.getSingleResult();
+        
+    }
+    
+    
+    public static ObservableList getMesasDisponiveis()
+    {
+        ObservableList<String> results = null;
+        Estabelecimento selected = getSelectedEstab();
+        
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Query getNumMesas = em.createNamedQuery("Mesas.findNumByEstabelecimento");
+        getNumMesas.setParameter("idEstabelecimento", selected.getIdEstabelecimento());
+        getNumMesas.setParameter("estado",0);
+        
+        List<Integer> list = getNumMesas.getResultList();
+        List<String> mesas = list.stream()
+                .map(s -> String.valueOf(s))
+                .collect(Collectors.toList());
+        
+        results = FXCollections.observableArrayList(mesas);
+        
+        return results;
+        
+    }
+    
+    public static Cliente getLoggedCCliente()
+    {
+        return loggedCliente;
+    }
+    
+    public static Estabelecimento getSelectedEstab()
+    {
+        return selectedEstab;
     }
     
     
