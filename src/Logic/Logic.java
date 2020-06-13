@@ -10,6 +10,7 @@ import DAL.Estabelecimento;
 import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
@@ -160,20 +161,24 @@ public class Logic {
     
     public static ObservableList getMesasDisponiveis()
     {
-        ObservableList<String> results = null;
-        Estabelecimento selected = getSelectedEstab();
-        
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
         
-        Query getNumMesas = em.createNamedQuery("Mesas.findNumByEstabelecimento");
-        getNumMesas.setParameter("idEstabelecimento", selected.getIdEstabelecimento());
+        ObservableList<String> results = null;
+        Estabelecimento selected = getSelectedEstab();
+        
+        Query getNumMesas = em.createNamedQuery("Mesas.findLivreByEstabelecimento");
+        getNumMesas.setParameter("idEstabelecimento", selected);
         getNumMesas.setParameter("estado",0);
         
-        List<Integer> list = getNumMesas.getResultList();
-        List<String> mesas = list.stream()
-                .map(s -> String.valueOf(s))
-                .collect(Collectors.toList());
+        List<BigInteger> list = getNumMesas.getResultList();
+        List<String> mesas = new ArrayList<>(list.size());
+        for(BigInteger myBigInt : list)
+        {
+            mesas.add(myBigInt.toString());
+        }
+        
+        
         
         results = FXCollections.observableArrayList(mesas);
         
@@ -189,6 +194,32 @@ public class Logic {
     public static Estabelecimento getSelectedEstab()
     {
         return selectedEstab;
+    }
+    
+    
+    //------- Funçao de Teste ----------
+    public static void printStuff()
+    {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Estabelecimento selected = getSelectedEstab();
+        
+        Query getNumMesas = em.createNamedQuery("Mesas.findLivreByEstabelecimento");
+        getNumMesas.setParameter("idEstabelecimento", selected);
+        getNumMesas.setParameter("estado",0);
+        
+        List<BigInteger> list = getNumMesas.getResultList();
+         
+        List<String> mesas = new ArrayList<>(list.size());
+        for(BigInteger myInt : list)
+        {
+            mesas.add(myInt.toString());
+        }
+         
+         System.out.println(mesas);
+        
+        
     }
     
     

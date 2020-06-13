@@ -18,8 +18,8 @@ import javafx.scene.control.ListView;
  *
  * @author Carlos
  */
-public class EscolherEstabelecimentoController{
-    
+public class EscolherEstabelecimentoController
+{
     @FXML private ListView estabelecimentosList;
     @FXML private Button logoutBtn;
     @FXML private Button escolherBtn;

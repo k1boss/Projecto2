@@ -5,14 +5,13 @@
  */
 package GUI.controllers;
 
+import GUI.Main;
 import Logic.Logic;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.FlowPane;
 
 /**
  * FXML Controller class
@@ -21,25 +20,27 @@ import javafx.scene.layout.FlowPane;
  */
 public class EscolherMesaController
 {
-    
-    
         @FXML private ListView mesasListView;
         @FXML private Button voltarBtn;
         @FXML private Button escolherBtn;
         
     @FXML    
-    public void initialize() {
-        //populateMesas();
+    public void initialize() 
+    {
+        populateMesas();
     }    
     
     //Erro com esta função!!! Falta resolver!!!!!!!
     
     public void populateMesas()
     {
-        
-        ObservableList<String> results = Logic.getMesasDisponiveis();
-        
-        mesasListView.getItems().addAll(results);
+        mesasListView.getItems().addAll(Logic.getMesasDisponiveis());
+        //Logic.printStuff();
+    }
+    
+    public void voltarBtnAction(ActionEvent event) throws Exception
+    {
+        Main.changeScene("/GUI/resources/EscolherEstabelecimento.fxml");
     }
     
 }
