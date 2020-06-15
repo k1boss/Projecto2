@@ -5,19 +5,13 @@
  */
 package GUI;
 
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Statement;
-import java.util.List;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import projecto.Util;
 
 /**

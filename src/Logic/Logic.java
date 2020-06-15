@@ -158,7 +158,6 @@ public class Logic {
         
     }
     
-    
     public static ObservableList getMesasDisponiveis()
     {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -186,11 +185,13 @@ public class Logic {
         
     }
     
-    public static Cliente getLoggedCCliente()
+    //retornar cliente loggado
+    public static Cliente getLoggedCliente()
     {
         return loggedCliente;
     }
     
+    //retornar estabelecimento seleccionado
     public static Estabelecimento getSelectedEstab()
     {
         return selectedEstab;
@@ -217,9 +218,19 @@ public class Logic {
             mesas.add(myInt.toString());
         }
          
-         System.out.println(mesas);
+         System.out.println(mesas);   
+    }
+    
+    //Verificar se duas strings sao iguais
+    public static boolean compareStrings(String firstString, String secondString)
+    {
+        boolean isEqual = false;
+        if(firstString.equals(secondString))
+        {
+            isEqual = true;
+        }
         
-        
+        return isEqual;
     }
     
     
