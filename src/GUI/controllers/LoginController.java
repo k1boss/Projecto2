@@ -49,7 +49,7 @@ public class LoginController
                 
                 //Mudar scene
                 
-                Main.changeScene("/GUI/resources/EscolherEstabelecimento.fxml");
+                Main.changeScene("/GUI/resources/MenuCliente.fxml");
             }
             else
             {

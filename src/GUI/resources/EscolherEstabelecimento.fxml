@@ -30,7 +30,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="logoutBtn" maxHeight="50.0" maxWidth="100.0" mnemonicParsing="false" onAction="#logoutBtnAction" text="Log Out" GridPane.halignment="CENTER" />
+            <Button fx:id="logoutBtn" maxHeight="50.0" maxWidth="100.0" mnemonicParsing="false" onAction="#voltarBtnAction" text="Voltar" GridPane.halignment="CENTER" />
             <Button fx:id="escolherBtn" maxHeight="50.0" maxWidth="100.0" mnemonicParsing="false" onAction="#escolherBtnAction" text="Escolher" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
          </children>
       </GridPane>

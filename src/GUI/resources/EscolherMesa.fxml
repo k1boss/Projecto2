@@ -29,7 +29,7 @@
               </rowConstraints>
                <children>
                   <Button fx:id="voltarBtn" maxHeight="50.0" maxWidth="100.0" mnemonicParsing="false" onAction="#voltarBtnAction" text="Voltar" GridPane.halignment="CENTER" />
-                  <Button fx:id="escolherBtn" maxHeight="50.0" maxWidth="100.0" mnemonicParsing="false" text="Escolher" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                  <Button fx:id="escolherBtn" maxHeight="50.0" maxWidth="100.0" mnemonicParsing="false" onAction="#escolherMesaBtnAction" text="Escolher" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
                </children>
             </GridPane>
             <ListView fx:id="mesasListView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />

@@ -7,12 +7,12 @@
 package Logic;
 import DAL.Cliente;
 import DAL.Estabelecimento;
+import DAL.Produto;
+import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javax.persistence.EntityManager;
@@ -33,6 +33,7 @@ public class Logic {
     private static EntityManagerFactory factory;
     private static Cliente loggedCliente;
     private static Estabelecimento selectedEstab;
+    private static HashMap<BigDecimal,Integer> selectedProd;
     
     
     
@@ -78,6 +79,11 @@ public class Logic {
         
         return loggedIn;
         
+    }
+    
+    public static void logout() throws Exception
+    {
+        loggedCliente = null;
     }
     
     public static boolean userExists(String username)
@@ -158,6 +164,11 @@ public class Logic {
         
     }
     
+    public static void escolherProdutos(BigDecimal idProduto,Integer quantidade)
+    {
+        selectedProd.put(idProduto, quantidade);
+    }
+    
     public static ObservableList getMesasDisponiveis()
     {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -197,6 +208,12 @@ public class Logic {
         return selectedEstab;
     }
     
+    //retornar lista de produtos seleccionados
+    public static HashMap<BigDecimal,Integer> getSelectedProd()
+    {
+        return selectedProd;
+    }
+    
     
     //------- Funçao de Teste ----------
     public static void printStuff()
@@ -233,6 +250,17 @@ public class Logic {
         return isEqual;
     }
     
-    
-    
+    public static ObservableList getProdutos()
+    {
+        ObservableList<Produto> produtos = null;
+        Estabelecimento selected = getSelectedEstab();
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        Query getProdutos = em.createNamedQuery("Produto.findByIdEstabelecimento");
+        getProdutos.setParameter("idEstabelecimento", selected);
+        
+        produtos = FXCollections.observableArrayList(getProdutos.getResultList());
+        
+        return produtos;
+    }
 }

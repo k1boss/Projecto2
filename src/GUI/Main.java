@@ -6,6 +6,7 @@
 package GUI;
 
 import java.sql.Connection;
+import java.util.HashMap;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -20,10 +21,6 @@ import projecto.Util;
  */
 public class Main  extends Application{
 
-    public static void changeScene() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
     static private Stage primaryStage;
     static private Class clazz;
     
@@ -72,6 +69,8 @@ public class Main  extends Application{
         newStage.show();
         
     }
+    
+    
     
     
 }

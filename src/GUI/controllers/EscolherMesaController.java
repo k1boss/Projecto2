@@ -7,7 +7,6 @@ package GUI.controllers;
 
 import GUI.Main;
 import Logic.Logic;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -40,7 +39,12 @@ public class EscolherMesaController
     
     public void voltarBtnAction(ActionEvent event) throws Exception
     {
-        Main.changeScene("/GUI/resources/EscolherEstabelecimento.fxml");
+        Main.changeScene("/GUI/resources/MenuCliente.fxml");
+    }
+    
+    public void escolherMesaBtnAction() throws Exception
+    {
+        Main.changeScene("/GUI/resources/EscolherProdutos.fxml");
     }
     
 }

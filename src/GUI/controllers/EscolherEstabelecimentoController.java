@@ -39,9 +39,9 @@ public class EscolherEstabelecimentoController
         estabelecimentosList.getItems().addAll(results);
     }
     
-    public void logoutBtnAction(ActionEvent event) throws Exception
+    public void voltarBtnAction(ActionEvent event) throws Exception
     {
-        Main.changeScene("/GUI/resources/Login.fxml");
+        Main.changeScene("/GUI/resources/MenuCliente.fxml");
     }
     
     public void escolherBtnAction(ActionEvent event) throws Exception
