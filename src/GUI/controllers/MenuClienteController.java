@@ -52,9 +52,9 @@ public class MenuClienteController
         Main.changeScene("/GUI/resources/EscolherProdutos.fxml");
     }
     
-    public void editarPerfilBtnAction()
+    public void editarPerfilBtnAction() throws Exception
     {
-        
+        Main.changeScene("/GUI/resources/MenuEditarPerfil.fxml");
     }
     
     public void checkoutBtnAction()

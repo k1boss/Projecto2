@@ -164,9 +164,9 @@ public class Logic {
         
     }
     
-    public static void escolherProdutos(BigDecimal idProduto,Integer quantidade)
+    public static void escolherProdutos(HashMap<BigDecimal, Integer> quantidades)
     {
-        selectedProd.put(idProduto, quantidade);
+        selectedProd = quantidades;
     }
     
     public static ObservableList getMesasDisponiveis()
@@ -262,5 +262,50 @@ public class Logic {
         produtos = FXCollections.observableArrayList(getProdutos.getResultList());
         
         return produtos;
+    }
+    
+    public static Cliente getClienteByID(BigDecimal idCliente)
+    {
+        Cliente cli = new Cliente();
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        Query getClienteByID = em.createNamedQuery("Cliente.findByIdCliente");
+        getClienteByID.setParameter("idCliente", idCliente);
+        
+        cli = (Cliente) getClienteByID.getSingleResult();
+        
+        return cli;
+        
+    }
+    
+    public static void updateUsernameCliente(String username)
+    {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        em.getTransaction().begin();
+        Query updateCliente =  em.createQuery("UPDATE Cliente SET username = :username " + "WHERE idCliente = :idCliente");
+        updateCliente.setParameter("username", username).setParameter("idCliente",loggedCliente.getIdCliente()).executeUpdate();
+        em.getTransaction().commit();
+    }
+    
+    public static void updateNomeCliente(String newNome)
+    {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        em.getTransaction().begin();
+        Query updateCliente =  em.createQuery("UPDATE Cliente SET nome = :nome " + "WHERE idCliente = :idCliente");
+        updateCliente.setParameter("nome", newNome).setParameter("idCliente",loggedCliente.getIdCliente()).executeUpdate();
+        em.getTransaction().commit();
+    }
+    
+    public static void setLoggedClienteNome(String newNome)
+    {
+        loggedCliente.setNome(newNome);
+        
+    }
+    
+    public static void setLoggedClienteUsername(String newUsername)
+    {
+        loggedCliente.setUsername(newUsername);
     }
 }

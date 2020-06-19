@@ -30,8 +30,11 @@ public class EscolherProdutosController
     @FXML private VBox qtdsVBox;
     @FXML private Button escolherBtn;
     
-    private static ArrayList<Label> quantidades = new ArrayList<>();
+    //private static ArrayList<Label> quantidades = new ArrayList<>();
     private static ArrayList<BigDecimal> idProdutos = new ArrayList<>();
+    private HashMap<BigDecimal, Integer> quantidades = new HashMap<>();
+    //private Integer quantidade;
+    
     
     @FXML
     public void initialize() 
@@ -42,6 +45,7 @@ public class EscolherProdutosController
     public void populateFlowPane()
     {
         ObservableList<Produto> produtos = Logic.getProdutos();
+        
         
         produtos.forEach(prod -> {
             HBox hbox = new HBox(5);
@@ -62,53 +66,49 @@ public class EscolherProdutosController
             
             //remover unidades do produto
             minus.setOnAction((ActionEvent e) -> {
-                int quantidade = Integer.parseInt(qtd.getText());
+                Integer quantidade = Integer.parseInt(qtd.getText());
                 if(quantidade >= 1)
                 {
                     quantidade--;
                     qtd.setText(String.valueOf(quantidade));
+                    
+                    if(quantidades.containsKey(prod.getIdProduto()))
+                        quantidades.replace(prod.getIdProduto(), quantidade);
+                    else
+                        quantidades.put(prod.getIdProduto(), quantidade);
                 }
             });
             
             //adicionar unidades do produto
             plus.setOnAction((ActionEvent e) -> {
-                int quantidade = Integer.parseInt(qtd.getText());
+                Integer quantidade = Integer.parseInt(qtd.getText());
                 if(quantidade >= 0)
                 {
                     quantidade++;
                     qtd.setText(String.valueOf(quantidade));
+                    
+                    if(quantidades.containsKey(prod.getIdProduto()))
+                        quantidades.replace(prod.getIdProduto(), quantidade);
+                    else
+                        quantidades.put(prod.getIdProduto(), quantidade);
                 }
             });
-            
-            quantidades.add(qtd);
-            idProdutos.add(prod.getIdProduto());
         });
         
     }
     
     public void escolherProdutos()
     {
-        idProdutos.forEach(id -> {
-            quantidades.forEach(qtd -> {
-                if(Integer.parseInt(qtd.getText()) >0 )
-                {
-                    Logic.escolherProdutos(id, Integer.parseInt(qtd.getText()));
-                }
-            });
-        });
+        Logic.escolherProdutos(quantidades);
     }
     
     public void printTest()
     {
         HashMap<BigDecimal, Integer> map = Logic.getSelectedProd();
         
-        if(map != null)
-        {
-            System.out.println("IS NOT NULL!!!!");
-        }else
-        {
-            System.out.println("NULL!!!!!!!");
-        }
+        map.entrySet().forEach(entry -> {
+            System.out.println("ID: " + entry.getKey() + "Quantidade: " + entry.getValue());
+        });
         
     }
     

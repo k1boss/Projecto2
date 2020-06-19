@@ -8,7 +8,6 @@ package DAL;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.Statement;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
