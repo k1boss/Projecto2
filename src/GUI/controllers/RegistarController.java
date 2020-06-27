@@ -8,7 +8,6 @@ package GUI.controllers;
 import DAL.Cliente;
 import GUI.Main;
 import javafx.event.ActionEvent;
-
 import Logic.Logic;
 import java.math.BigInteger;
 import javafx.fxml.FXML;
@@ -58,7 +57,7 @@ public class RegistarController
             Main.changeScene("/GUI/resources/Login.fxml");
             
             //criar stage de sucesso
-            Main.createStage("Registo feito com Sucesso", "/GUI/resources/RegistarSuccess.fxml");
+            Main.createStage("Sucesso","Registo efectuado com sucesso.",350,150);
         }
         else
         {

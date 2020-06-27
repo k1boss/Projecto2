@@ -44,8 +44,7 @@ public class LoginController
         
             if(loggedIn)
             {
-                Main.createStage("Sucesso", "/GUI/resources/LoginSuccess.fxml");
-                
+                Main.createStage("Success", "O Login foi efectuado com sucesso.",350,150);
                 
                 //Mudar scene
                 

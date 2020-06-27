@@ -115,11 +115,6 @@ public class Logic {
         {
             exists = false;
         }
-        
-        
-        
-        
-        
         return exists;
     }
 
@@ -283,8 +278,19 @@ public class Logic {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
         em.getTransaction().begin();
-        Query updateCliente =  em.createQuery("UPDATE Cliente SET username = :username " + "WHERE idCliente = :idCliente");
-        updateCliente.setParameter("username", username).setParameter("idCliente",loggedCliente.getIdCliente()).executeUpdate();
+        Query updateUsernameCliente =  em.createQuery("UPDATE Cliente SET username = :username " + "WHERE idCliente = :idCliente");
+        updateUsernameCliente.setParameter("username", username).setParameter("idCliente",loggedCliente.getIdCliente()).executeUpdate();
+        em.getTransaction().commit();
+    }
+    
+    
+    public static void updatePasswordCliente(String password)
+    {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        em.getTransaction().begin();
+        Query updatePasswordCliente =  em.createQuery("UPDATE Cliente SET passwd = :passwd " + "WHERE idCliente = :idCliente");
+        updatePasswordCliente.setParameter("passwd", password).setParameter("idCliente",loggedCliente.getIdCliente()).executeUpdate();
         em.getTransaction().commit();
     }
     
@@ -293,8 +299,8 @@ public class Logic {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
         em.getTransaction().begin();
-        Query updateCliente =  em.createQuery("UPDATE Cliente SET nome = :nome " + "WHERE idCliente = :idCliente");
-        updateCliente.setParameter("nome", newNome).setParameter("idCliente",loggedCliente.getIdCliente()).executeUpdate();
+        Query updateNomeCliente =  em.createQuery("UPDATE Cliente SET nome = :nome " + "WHERE idCliente = :idCliente");
+        updateNomeCliente.setParameter("nome", newNome).setParameter("idCliente",loggedCliente.getIdCliente()).executeUpdate();
         em.getTransaction().commit();
     }
     
@@ -307,5 +313,10 @@ public class Logic {
     public static void setLoggedClienteUsername(String newUsername)
     {
         loggedCliente.setUsername(newUsername);
+    }
+    
+    public static void setLoggedClientePassword(String newPassword)
+    {
+        loggedCliente.setPasswd(newPassword);
     }
 }

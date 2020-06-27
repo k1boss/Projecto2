@@ -5,7 +5,6 @@
  */
 package GUI.controllers;
 
-
 import GUI.Main;
 import Logic.Logic;
 import javafx.fxml.FXML;
@@ -17,45 +16,50 @@ import javafx.scene.control.TextField;
  *
  * @author Carlos
  */
-public class MudarNomeController
-{
-    @FXML private TextField nomeTextField;
-    @FXML private TextField confirmNomeTextField;
-    @FXML private Label nomeLabel;
-    @FXML private Label confirmNomeLabel;
+public class MudarPasswordController {
+
+    
+    @FXML private Label passwordLabel;
+    @FXML private Label confirmPasswordLabel;
     @FXML private Label warningLabel;
+    @FXML private TextField passwordTextField;
+    @FXML private TextField confirmPasswordTextField;
+    
+    /**
+     * Initializes the controller class.
+     */
     
     public void confirmarBtnAction() throws Exception
     {
-        nomeLabel.setVisible(false);
-        confirmNomeLabel.setVisible(false);
+        passwordLabel.setVisible(false);
+        confirmPasswordLabel.setVisible(false);
         warningLabel.setVisible(false);
         
         
-        if(nomeTextField.getText() == null || nomeTextField.getText().isEmpty())
+        if(passwordTextField.getText() == null || passwordTextField.getText().isEmpty())
         {
             System.out.println("5");
-            nomeLabel.setText("Verifique o Nome.");
-            nomeLabel.setVisible(true);
+            passwordLabel.setText("Verifique a Password.");
+            passwordLabel.setVisible(true);
             
         }
-        if(confirmNomeTextField.getText() == null || confirmNomeTextField.getText().isEmpty())
+        if(confirmPasswordTextField.getText() == null || confirmPasswordTextField.getText().isEmpty())
         {
             System.out.println("6");
-            confirmNomeLabel.setText("Confirme o Nome.");
-            confirmNomeLabel.setVisible(true);
+            confirmPasswordLabel.setText("Confirme a Password.");
+            confirmPasswordLabel.setVisible(true);
         }
         else
         {
-            String newNome = confirmNomeTextField.getText();
-            if(Logic.compareStrings(nomeTextField.getText(),
-                    confirmNomeTextField.getText()))
+            String newPassword = confirmPasswordTextField.getText();
+            if(Logic.compareStrings(passwordTextField.getText(),
+                    confirmPasswordTextField.getText()))
             {
                 System.out.println("4");
-                Logic.updateNomeCliente(newNome);
-                Logic.setLoggedClienteNome(newNome);
+                Logic.updatePasswordCliente(newPassword);
+                Logic.setLoggedClienteNome(newPassword);
                 
-                Main.createStage("Sucesso", "Nome alterado com sucesso.",350,150);
+                Main.createStage("Sucesso", "Password alterada com sucesso.",350,150);
                 Main.changeScene("/GUI/resources/MenuEditarPerfil.fxml");
             }
             else

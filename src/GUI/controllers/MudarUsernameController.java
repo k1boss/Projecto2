@@ -5,7 +5,6 @@
  */
 package GUI.controllers;
 
-import DAL.Cliente;
 import GUI.Main;
 import Logic.Logic;
 import javafx.fxml.FXML;
@@ -29,7 +28,7 @@ public class MudarUsernameController
     @FXML private Label confirmUsernameLabel;
     @FXML private Label warningLabel;
     
-    public void confirmarBtnAction()
+    public void confirmarBtnAction() throws Exception
     {
         usernameLabel.setVisible(false);
         confirmUsernameLabel.setVisible(false);
@@ -59,8 +58,8 @@ public class MudarUsernameController
                 Logic.updateUsernameCliente(newUsername);
                 Logic.setLoggedClienteUsername(newUsername);
                 
-                Cliente testCli = Logic.getLoggedCliente();
-                System.out.println(testCli.getUsername());
+                Main.createStage("Sucesso", "Username alterado com sucesso.",350,150);
+                Main.changeScene("/GUI/resources/MenuEditarPerfil.fxml");
             }
             else
             {
