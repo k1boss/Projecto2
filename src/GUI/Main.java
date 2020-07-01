@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import Logic.Logic;
 import java.sql.Connection;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -33,6 +34,12 @@ public class Main  extends Application{
     public static void main(String[] args) {
         Connection conn = Util.criarConexao();
         launch(args);
+        
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+        public void run() {
+            Logic.updateMesaToLivre(Logic.getSelectedMesa().getIdMesa().intValue());
+        }
+    }, "Shutdown-thread"));
         
     }
 

@@ -51,6 +51,7 @@ public class RegistarController
             cliente.setNif(nif);
             cliente.setPasswd(passwordField.getText());
             
+            
             Logic.insertCliente(cliente);
             
             //mudar a scene

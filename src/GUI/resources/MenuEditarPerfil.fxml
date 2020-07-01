@@ -23,7 +23,7 @@
             <Button fx:id="mudarUsernameBtn" maxHeight="50.0" maxWidth="150.0" mnemonicParsing="false" onAction="#mudarUsername" text="Mudar Username" GridPane.halignment="CENTER" />
             <Button fx:id="mudarNomeBtn" maxHeight="50.0" maxWidth="150.0" mnemonicParsing="false" onAction="#mudarNome" text="Mudar Nome" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
             <Button fx:id="mudarPasswordBtn" maxHeight="50.0" maxWidth="150.0" mnemonicParsing="false" onAction="#mudarPassword" text="Mudar Password" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-            <Button fx:id="mudarEmailBtn" maxHeight="50.0" maxWidth="150.0" mnemonicParsing="false" text="Mudar Email" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+            <Button fx:id="mudarEmailBtn" maxHeight="50.0" maxWidth="150.0" mnemonicParsing="false" onAction="#mudarEmail" text="Mudar Email" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
             <Button fx:id="voltarBtn" maxHeight="50.0" maxWidth="100.0" mnemonicParsing="false" onAction="#voltarBtnAction" text="Voltar" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
          </children>
       </GridPane>

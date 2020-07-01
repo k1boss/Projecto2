@@ -6,9 +6,9 @@
 package GUI.controllers;
 
 import DAL.Produto;
+import GUI.Main;
 import Logic.Logic;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,12 +28,9 @@ public class EscolherProdutosController
     @FXML private VBox nomesVBox;
     @FXML private VBox precoVBox;
     @FXML private VBox qtdsVBox;
-    @FXML private Button escolherBtn;
     
-    //private static ArrayList<Label> quantidades = new ArrayList<>();
-    private static ArrayList<BigDecimal> idProdutos = new ArrayList<>();
     private HashMap<BigDecimal, Integer> quantidades = new HashMap<>();
-    //private Integer quantidade;
+
     
     
     @FXML
@@ -100,6 +97,12 @@ public class EscolherProdutosController
     public void escolherProdutos()
     {
         Logic.escolherProdutos(quantidades);
+    }
+    
+    
+    public void voltarBtnAction() throws Exception
+    {
+        Main.changeScene("/GUI/resources/MenuCliente.fxml");
     }
     
     public void printTest()

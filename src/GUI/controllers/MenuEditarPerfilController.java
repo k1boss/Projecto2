@@ -34,6 +34,11 @@ public class MenuEditarPerfilController
         Main.changeScene("/GUI/resources/MudarPassword.fxml");
     }
     
+    public void mudarEmail() throws Exception
+    {
+        Main.changeScene("/GUI/resources/MudarEmail.fxml");
+    }
+    
     public void voltarBtnAction() throws Exception
     {
         Main.changeScene("/GUI/resources/MenuCliente.fxml");

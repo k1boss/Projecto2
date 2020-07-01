@@ -5,8 +5,14 @@
  */
 package GUI.controllers;
 
+import DAL.Mesas;
 import GUI.Main;
 import Logic.Logic;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -33,17 +39,34 @@ public class EscolherMesaController
     
     public void populateMesas()
     {
-        mesasListView.getItems().addAll(Logic.getMesasDisponiveis());
-        //Logic.printStuff();
+        ObservableList<Mesas> mesas = Logic.getMesasDisponiveis();
+        List<BigInteger> numMesas = new ArrayList<>();
+        List<String> list = new ArrayList<>();
+        ObservableList<String> numMesasToString = null;
+
+        
+        mesas.forEach(mesa -> {
+            numMesas.add(mesa.getNumMesa());
+        });
+        
+        numMesas.forEach(numMesa -> {
+            list.add(numMesa.toString());
+        });
+        
+        numMesasToString = FXCollections.observableArrayList(list);
+        
+        mesasListView.getItems().addAll(numMesasToString); //not printing to ListView
     }
     
-    public void voltarBtnAction(ActionEvent event) throws Exception
+    public void voltarBtnAction() throws Exception
     {
         Main.changeScene("/GUI/resources/MenuCliente.fxml");
     }
     
     public void escolherMesaBtnAction() throws Exception
     {
+        int idMesa = Integer.parseInt((String) mesasListView.getSelectionModel().getSelectedItem());
+        Logic.escolherMesa(idMesa);
         Main.changeScene("/GUI/resources/EscolherProdutos.fxml");
     }
     

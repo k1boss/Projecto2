@@ -60,8 +60,8 @@
                 <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField fx:id="passwordField" maxWidth="450.0" prefHeight="0.0" prefWidth="450.0" GridPane.valignment="BOTTOM" />
                   <Label fx:id="registarFailedLabel" text="Label" textFill="RED" visible="false" GridPane.rowIndex="1" />
+                  <PasswordField fx:id="passwordField" />
                </children>
             </GridPane>
          </children>

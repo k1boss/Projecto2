@@ -17,7 +17,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button maxHeight="50.0" maxWidth="100.0" mnemonicParsing="false" text="Voltar" GridPane.halignment="CENTER" />
+            <Button maxHeight="50.0" maxWidth="100.0" mnemonicParsing="false" onAction="#voltarBtnAction" text="Voltar" GridPane.halignment="CENTER" />
             <Button fx:id="escolherBtn" maxHeight="50.0" maxWidth="100.0" mnemonicParsing="false" onAction="#escolherProdutos" text="Escolher" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
             <Button fx:id="printBtn" mnemonicParsing="false" onAction="#printTest" text="print" GridPane.columnIndex="1" />
          </children>

@@ -9,6 +9,7 @@ import GUI.Main;
 import Logic.Logic;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
 /**
  * FXML Controller class
@@ -28,11 +29,17 @@ public class MenuClienteController
     @FXML private Button checkoutBtn;
     @FXML private Button editarPerfilBtn;
     @FXML private Button logoutBtn;
+    @FXML private Label usernameLabel;
+    
     
     
     @FXML
     public void initialize() 
     {
+        usernameLabel.setText("Bem-Vindo: " + Logic.getUsername() + "!");
+        
+        if(Logic.getSelectEstabelecimento()==null)
+            escolherProdutosBtn.setDisable(true);
         
     }    
     
@@ -44,12 +51,15 @@ public class MenuClienteController
     
     public void escolherMesaBtnAction() throws Exception
     {
+        Logic.updateMesaToLivre(Logic.getSelectedMesa().getIdMesa().intValue());
         Main.changeScene("/GUI/resources/EscolherMesa.fxml");
     }
     
     public void escolherProdutosBtnAction() throws Exception
     {
+        
         Main.changeScene("/GUI/resources/EscolherProdutos.fxml");
+    
     }
     
     public void editarPerfilBtnAction() throws Exception
@@ -67,5 +77,7 @@ public class MenuClienteController
         Logic.logout();
         Main.changeScene("/GUI/resources/Login.fxml");
     }
+    
+    
     
 }
