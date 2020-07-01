@@ -8,18 +8,16 @@ package DAL;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,7 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Cliente.findByEmail", query = "SELECT c FROM Cliente c WHERE c.email = :email"),
     @NamedQuery(name = "Cliente.findByPasswd", query = "SELECT c FROM Cliente c WHERE c.passwd = :passwd"),
     @NamedQuery(name = "Cliente.findByUsername", query = "SELECT c FROM Cliente c WHERE c.username = :username")})
-    
 public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -59,10 +56,9 @@ public class Cliente implements Serializable {
     @Basic(optional = false)
     @Column(name = "USERNAME")
     private String username;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente")
-    private List<Pagamento> pagamentoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente")
-    private List<Carrinho> carrinhoList;
+    @JoinColumn(name = "ID_TIPOUTILIZADOR", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private Tipoutilizador idTipoutilizador;
 
     public Cliente() {
     }
@@ -127,22 +123,12 @@ public class Cliente implements Serializable {
         this.username = username;
     }
 
-    @XmlTransient
-    public List<Pagamento> getPagamentoList() {
-        return pagamentoList;
+    public Tipoutilizador getIdTipoutilizador() {
+        return idTipoutilizador;
     }
 
-    public void setPagamentoList(List<Pagamento> pagamentoList) {
-        this.pagamentoList = pagamentoList;
-    }
-
-    @XmlTransient
-    public List<Carrinho> getCarrinhoList() {
-        return carrinhoList;
-    }
-
-    public void setCarrinhoList(List<Carrinho> carrinhoList) {
-        this.carrinhoList = carrinhoList;
+    public void setIdTipoutilizador(Tipoutilizador idTipoutilizador) {
+        this.idTipoutilizador = idTipoutilizador;
     }
 
     @Override
@@ -169,8 +155,5 @@ public class Cliente implements Serializable {
     public String toString() {
         return "DAL.Cliente[ idCliente=" + idCliente + " ]";
     }
-    
-    
-    
     
 }

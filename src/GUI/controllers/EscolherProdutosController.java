@@ -94,9 +94,10 @@ public class EscolherProdutosController
         
     }
     
-    public void escolherProdutos()
+    public void escolherProdutos() throws Exception
     {
         Logic.escolherProdutos(quantidades);
+        Main.changeScene("/GUI/resources/CheckOut.fxml");
     }
     
     
@@ -114,5 +115,7 @@ public class EscolherProdutosController
         });
         
     }
+    
+    
     
 }

@@ -420,5 +420,13 @@ public class Logic {
         return selectedEstab;
     }
     
-    
+    public static int getRandomDoubleBetweenRange(int min, int max)
+    {
+
+        int referenciaMB = (int)(Math.random()*((max-min)+1))+min;
+
+        return referenciaMB;
+        
+
+}
 }

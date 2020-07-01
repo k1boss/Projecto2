@@ -10,6 +10,7 @@
     <class>DAL.Carrinho</class>
     <class>DAL.Estabelecimento</class>
     <class>DAL.Promocao</class>
+    <class>DAL.Tipoutilizador</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:ODB"/>
       <property name="javax.persistence.jdbc.user" value="k1boss"/>

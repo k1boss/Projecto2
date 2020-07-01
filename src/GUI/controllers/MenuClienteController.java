@@ -40,6 +40,7 @@ public class MenuClienteController
         
         if(Logic.getSelectEstabelecimento()==null)
             escolherProdutosBtn.setDisable(true);
+            checkoutBtn.setDisable(true);
         
     }    
     
