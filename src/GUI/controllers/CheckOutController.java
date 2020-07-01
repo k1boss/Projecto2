@@ -21,8 +21,8 @@ public class CheckOutController {
     @FXML
     public void initialize()
     {
-        int referenciaMB = Logic.getRandomDoubleBetweenRange(111111111, 999999999);
-        String referencia = Double.toString(referenciaMB);
+        int referenciaMB = Logic.getReferenciaMB();
+        String referencia = Integer.toString(referenciaMB);
         
         referenciaLabel.setText(referencia);
     }

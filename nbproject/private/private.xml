@@ -5,9 +5,15 @@
         <group>
             <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/GUI/controllers/EscolherMesaController.java</file>
             <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/DAL/Mesas.java</file>
+            <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/GUI/controllers/CheckOutController.java</file>
             <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/GUI/controllers/MenuClienteController.java</file>
+            <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/GUI/resources/CheckOut.fxml</file>
             <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/Logic/Logic.java</file>
+            <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/GUI/controllers/EscolherEstabelecimentoController.java</file>
+            <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/GUI/controllers/EscolherProdutosController.java</file>
             <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/GUI/Main.java</file>
+            <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/DAL/Cliente.java</file>
+            <file>file:/C:/Users/Carlos/Documents/NetBeansProjects/Projecto/src/GUI/resources/EscolherEstabelecimento.fxml</file>
         </group>
     </open-files>
 </project-private>

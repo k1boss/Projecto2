@@ -20,7 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  *
@@ -420,13 +420,9 @@ public class Logic {
         return selectedEstab;
     }
     
-    public static int getRandomDoubleBetweenRange(int min, int max)
+    public static int getReferenciaMB()
     {
-
-        int referenciaMB = (int)(Math.random()*((max-min)+1))+min;
-
+        int referenciaMB = (int)(Math.random() * (999999999 - 111111111 + 1) + 111111111);        
         return referenciaMB;
-        
-
-}
+    }
 }
