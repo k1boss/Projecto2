@@ -24,12 +24,8 @@ public class LoginController
     @FXML private PasswordField passwordField;
     @FXML private Label loginErrorLabel;
     
-
-    
-    
     public void registarButtonAction(ActionEvent event) throws Exception
     {
-        //Mudar scene
         Main.changeScene("/GUI/resources/Registar.fxml");
     }
     
@@ -44,11 +40,17 @@ public class LoginController
         
             if(loggedIn)
             {
-                Main.createStage("Success", "O Login foi efectuado com sucesso.",350,150);
+                if (Logic.loggedClientIsAdmin())
+                {
+                    Main.createStage("Success", "Login de Admin efectuado com sucesso", 350, 150);
+                    Main.changeScene("/GUI/resources/admin/MenuAdmin.fxml");
+                }
                 
-                //Mudar scene
-                
-                Main.changeScene("/GUI/resources/MenuCliente.fxml");
+                else
+                {
+                    Main.createStage("Success", "O Login foi efectuado com sucesso.",350,150);
+                    Main.changeScene("/GUI/resources/MenuCliente.fxml");
+                }
             }
             else
             {
@@ -61,11 +63,5 @@ public class LoginController
             loginErrorLabel.setText("Utilizador não existe.");
             loginErrorLabel.setVisible(true);
         }
-        
-        
-        
-        
-        
-        
     }
 }
