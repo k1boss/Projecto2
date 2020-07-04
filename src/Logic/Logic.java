@@ -70,7 +70,6 @@ public class Logic {
                      loggedIn = false;
                      System.out.println("Password Errada");
                  }
-
              }
         }
         catch(Exception e)
@@ -80,7 +79,6 @@ public class Logic {
         }
         
         return loggedIn;
-        
     }
     
     public static void logout() throws Exception
@@ -95,10 +93,8 @@ public class Logic {
     {
         boolean exists ;
         
-        
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
-        
         
         Query getUser = em.createNamedQuery("Cliente.findByUsername");
         getUser.setParameter("username", username);
@@ -131,14 +127,12 @@ public class Logic {
         em.getTransaction().begin();
         em.persist(cliente);
         em.getTransaction().commit();
-
     }
     
     public static  ObservableList nomesEstabelecimentos()
     {
         ObservableList<String> results = null;
 
-        
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
         
@@ -146,7 +140,6 @@ public class Logic {
         List<String> nomes = getEstabelecimentos.getResultList();
         
         results = FXCollections.observableArrayList(nomes);
-        
         
         return results;
     }
@@ -160,7 +153,6 @@ public class Logic {
         getEstabelecimento.setParameter("nome", nomeEstabelecimento);
         
         selectedEstab =(Estabelecimento) getEstabelecimento.getSingleResult();
-        
     }
     
     public static void escolherProdutos(HashMap<BigDecimal, Integer> quantidades)
@@ -218,7 +210,6 @@ public class Logic {
         results = FXCollections.observableArrayList(mesas);
         
         return results;
-        
     }
     
     
@@ -302,7 +293,6 @@ public class Logic {
         cli = (Cliente) getClienteByID.getSingleResult();
         
         return cli;
-        
     }
     
     public static Mesas getMesaByID(int idMesa)
@@ -389,7 +379,6 @@ public class Logic {
         Query updateEstadoMesa =  em.createQuery("UPDATE Mesas SET estado = :estado " + "WHERE idMesa = :idMesa");
         updateEstadoMesa.setParameter("estado", 1).setParameter("idMesa",selectedMesaID).executeUpdate();
         em.getTransaction().commit();
-        
     }
     
     public static void updateMesaToLivre(int selectedMesaID)
@@ -402,7 +391,6 @@ public class Logic {
         Query updateEstadoMesa =  em.createQuery("UPDATE Mesas SET estado = :estado " + "WHERE idMesa = :idMesa");
         updateEstadoMesa.setParameter("estado", 0).setParameter("idMesa",selectedMesaID).executeUpdate();
         em.getTransaction().commit();
-        
     }
     
     public static void escolherMesa(int idMesa)

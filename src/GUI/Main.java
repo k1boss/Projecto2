@@ -35,12 +35,10 @@ public class Main  extends Application{
         Connection conn = Util.criarConexao();
         launch(args);
         
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-        public void run() {
+        // TODO Esclarecer com o Carlos esta linha porque exception no logout
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             Logic.updateMesaToLivre(Logic.getSelectedMesa().getIdMesa().intValue());
-        }
-    }, "Shutdown-thread"));
-        
+        }, "Shutdown-thread"));
     }
 
     @Override
