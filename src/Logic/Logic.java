@@ -129,6 +129,13 @@ public class Logic {
         em.getTransaction().commit();
     }
     
+    // TODO Explicar ao carlos o conceito de separação de interfaces
+    // com o exemplo do insertCliente vs insertProduto
+    public static void insertProduto(int id_estabeleceimento, String nome,
+                                     float preco, String descricao) {
+        System.out.println(id_estabeleceimento + nome + preco + descricao);
+    }
+    
     // TABLE SELECTS
     public static ObservableList nomesEstabelecimentos()
     {
