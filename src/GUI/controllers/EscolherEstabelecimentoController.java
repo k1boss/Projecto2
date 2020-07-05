@@ -51,8 +51,13 @@ public class EscolherEstabelecimentoController
         Logic.escolherEstabelecimento(nome);
         
         //Mudar Scene
-        Main.changeScene("/GUI/resources/EscolherMesa.fxml");
+        if (Main.next_scene_fxml != null) {
+            System.out.println(Main.next_scene_fxml);
+            Main.changeScene(Main.next_scene_fxml);
+        }
+        else {
+            // TODO não sei o que isto era suposto fazer
+            Main.changeScene("/GUI/resources/EscolherMesa.fxml");
+        }
     }
- 
-    
 }

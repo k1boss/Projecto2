@@ -36,6 +36,7 @@ public class Logic {
     private static Estabelecimento selectedEstab;
     private static HashMap<BigDecimal,Integer> selectedProd;
     private static Mesas selectedMesa;
+    private static Produto selectedProduto;
     
     // LOGIN
     public static boolean login(String username, String password )
@@ -129,14 +130,43 @@ public class Logic {
         em.getTransaction().commit();
     }
     
-    // TODO Explicar ao carlos o conceito de separação de interfaces
-    // com o exemplo do insertCliente vs insertProduto
-    public static void insertProduto(int id_estabeleceimento, String nome,
-                                     float preco, String descricao) {
-        System.out.println(id_estabeleceimento + nome + preco + descricao);
+    public static void insertProduto(int id_estabelecimento, String nome,
+                                     double preco, String descricao) {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Query fetchEstabelecimento = em.createNamedQuery("Estabelecimento.findByIdEstabelecimento");
+        fetchEstabelecimento.setParameter("idEstabelecimento", id_estabelecimento);
+        Estabelecimento estabelecimento = (Estabelecimento) fetchEstabelecimento.getSingleResult();
+        
+        Produto produto = new Produto();
+        produto.setIdEstabelecimento(estabelecimento);
+        produto.setNome(nome);
+        produto.setPreco(preco);
+        produto.setDescricao(descricao);
+        
+        em.getTransaction().begin();
+        em.persist(produto);
+        em.getTransaction().commit();
     }
     
     // TABLE SELECTS
+    public static ObservableList fetchProdutosFromEstabelecimento() {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Query fetchProdutosfromEstabelecimentoQuery = em.createNamedQuery("Produto.findByIdEstabelecimento");
+        fetchProdutosfromEstabelecimentoQuery.setParameter("idEstabelecimento", selectedEstab);
+        List<Produto> produtos = (List<Produto>) fetchProdutosfromEstabelecimentoQuery.getResultList();
+        
+        System.out.println(produtos);
+        List<String> nomes_produtos = new ArrayList<>();
+        for(Produto produto : produtos) {
+            nomes_produtos.add(produto.getNome());
+        }
+        return FXCollections.observableArrayList(nomes_produtos);
+    }
+    
     public static ObservableList nomesEstabelecimentos()
     {
         ObservableList<String> results = null;
@@ -223,6 +253,10 @@ public class Logic {
     }
     
     // GETTERS
+    public static String getEstabelecimentoNome() {
+        return selectedEstab.getNome();
+    }
+    
     public static void escolherProdutos(HashMap<BigDecimal, Integer> quantidades)
     {
         selectedProd = quantidades;

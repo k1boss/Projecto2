@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="GUI.controllers.admin.InserirProdutoController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.controllers.admin.InserirProdutoController">
    <children>
       <GridPane layoutX="56.0" layoutY="24.0" prefHeight="274.0" prefWidth="489.0">
         <columnConstraints>
@@ -27,13 +26,13 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" GridPane.rowIndex="1" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Preço" GridPane.rowIndex="2" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Descrição" GridPane.rowIndex="3" />
-            <TextField id="idEstabelecimentoTextField" GridPane.columnIndex="1" />
-            <TextField id="nomeTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField id="precoTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField id="descricaoTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="idEstabelecimentoTextField" GridPane.columnIndex="1" />
+            <TextField fx:id="nomeTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="precoTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="descricaoTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
-      <Button id="inserirProdutoButton" onAction="#inserirProdutoButtonAction" layoutX="453.0" layoutY="329.0" mnemonicParsing="false" text="Inserir Produto" />
-      <Button id="voltarButton" onAction="#voltarButtonAction" layoutX="56.0" layoutY="329.0" mnemonicParsing="false" text="Voltar" />
+      <Button id="inserirProdutoButton" layoutX="453.0" layoutY="329.0" mnemonicParsing="false" onAction="#inserirProdutoButtonAction" text="Inserir Produto" />
+      <Button id="voltarButton" layoutX="56.0" layoutY="329.0" mnemonicParsing="false" onAction="#voltarButtonAction" text="Voltar" />
    </children>
 </AnchorPane>

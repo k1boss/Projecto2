@@ -14,9 +14,10 @@ import javafx.event.ActionEvent;
  * @author filip
  */
 public class MenuAdminController {
+    // Testar sem action event
     public void editarProdutosButtonAction(ActionEvent event) throws Exception
     {
-        Main.changeScene("/GUI/resources/admin/EditarProdutos.fxml");
+        Main.changeScene("/GUI/resources/admin/MenuEditarProdutos.fxml");
     }
     
     public void editarUtilizadoresButtonAction(ActionEvent event) throws Exception

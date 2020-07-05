@@ -13,9 +13,14 @@ import javafx.event.ActionEvent;
  *
  * @author filip
  */
-public class EditarProdutosController {
+public class MenuEditarProdutosController {
     public void inserirProdutoButton(ActionEvent event) throws Exception
     {
         Main.changeScene("/GUI/resources/admin/InserirProduto.fxml");
+    }
+    
+    public void editarProdutoButtonAction() throws Exception {
+        Main.changeSceneAndSetNextScene("/GUI/resources/EscolherEstabelecimento.fxml",
+                                        "/GUI/resources/admin/EscolherProduto.fxml");
     }
 }
