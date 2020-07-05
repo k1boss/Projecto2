@@ -65,6 +65,7 @@ public class EscolherMesaController
     
     public void escolherMesaBtnAction() throws Exception
     {
+        //TODO nao ir buscar idMesa a Label
         int idMesa = Integer.parseInt((String) mesasListView.getSelectionModel().getSelectedItem());
         Logic.escolherMesa(idMesa);
         Main.changeScene("/GUI/resources/EscolherProdutos.fxml");
