@@ -38,7 +38,7 @@ public class InserirProdutoController {
             // TODO CARLOS print some messages
         }
         
-        Logic.insertProduto(Integer.parseInt(id_estabelecimento_text),
+        Logic.insertNewProduto(Integer.parseInt(id_estabelecimento_text),
                             nome_text,
                             Double.parseDouble(preco_text),
                             descricao_text);

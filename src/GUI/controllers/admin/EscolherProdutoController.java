@@ -5,8 +5,15 @@
  */
 package GUI.controllers.admin;
 
+import DAL.Produto;
 import GUI.Main;
 import Logic.Logic;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +28,7 @@ public class EscolherProdutoController
 {
     @FXML private ListView produtosList;
     @FXML private Button escolherBtn;
+    List<Produto> produtos;
     
     @FXML
     public void initialize()
@@ -30,8 +38,13 @@ public class EscolherProdutoController
     
     public void populateListView()
     {
-        ObservableList<String> nomes_produtos = Logic.fetchProdutosFromEstabelecimento();
-        produtosList.getItems().addAll(nomes_produtos);
+        this.produtos = Logic.fetchProdutosFromEstabelecimento();
+        List<String> produto_mais_id = new ArrayList();
+        for(Produto produto : this.produtos) {
+            produto_mais_id.add(produto.getNome() + "    " + produto.getIdProduto());
+        }
+        
+        produtosList.getItems().addAll(produto_mais_id);
     }
     
     public void voltarBtnAction(ActionEvent event) throws Exception
@@ -40,6 +53,23 @@ public class EscolherProdutoController
     }
     
     public void escolherBtnAction() throws Exception {
+        String nome_mais_id = produtosList.getSelectionModel().getSelectedItem().toString();
+        Pattern id_pattern = Pattern.compile(".*\\s{4}([\\d]+)");
+        Matcher m = id_pattern.matcher(nome_mais_id);
+        m.find();
+        String str_id = m.group(1);
         
+        DecimalFormat dm = new DecimalFormat();
+        dm.setParseBigDecimal(true);
+        BigDecimal id = (BigDecimal) dm.parse(str_id);
+        
+        for (Produto produto : produtos) {
+            if(produto.getIdProduto().equals(id)) {
+                Logic.setSelectedProduto(produto);
+                break;
+            }
+        }
+        
+        Main.changeScene("/GUI/resources/admin/EditarProduto.fxml");
     }
 }

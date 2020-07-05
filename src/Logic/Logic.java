@@ -130,7 +130,19 @@ public class Logic {
         em.getTransaction().commit();
     }
     
-    public static void insertProduto(int id_estabelecimento, String nome,
+    public static void removeProduto(Produto produto) {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Query removerProdutoQuery = em.createQuery("DELETE FROM Produto WHERE id_produto = :id_produto");
+        removerProdutoQuery.setParameter("id_produto", produto.getIdProduto());
+        
+        em.getTransaction().begin();
+        removerProdutoQuery.executeUpdate();
+        em.getTransaction().commit();
+    }
+    
+    public static void insertNewProduto(int id_estabelecimento, String nome,
                                      double preco, String descricao) {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
@@ -151,20 +163,22 @@ public class Logic {
     }
     
     // TABLE SELECTS
-    public static ObservableList fetchProdutosFromEstabelecimento() {
+    public static List<Produto> fetchProdutosFromEstabelecimento() {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
         
         Query fetchProdutosfromEstabelecimentoQuery = em.createNamedQuery("Produto.findByIdEstabelecimento");
         fetchProdutosfromEstabelecimentoQuery.setParameter("idEstabelecimento", selectedEstab);
-        List<Produto> produtos = (List<Produto>) fetchProdutosfromEstabelecimentoQuery.getResultList();
+        return (List<Produto>) fetchProdutosfromEstabelecimentoQuery.getResultList();
         
+        /*
         System.out.println(produtos);
         List<String> nomes_produtos = new ArrayList<>();
         for(Produto produto : produtos) {
             nomes_produtos.add(produto.getNome());
         }
         return FXCollections.observableArrayList(nomes_produtos);
+        */
     }
     
     public static ObservableList nomesEstabelecimentos()
@@ -191,6 +205,13 @@ public class Logic {
         getEstabelecimento.setParameter("nome", nomeEstabelecimento);
         
         selectedEstab =(Estabelecimento) getEstabelecimento.getSingleResult();
+    }
+    
+    public static void escolherProduto(String nome_produto) {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Query getProduto = em.createNamedQuery("Produto.");
     }
     
     public static ObservableList getMesasDisponiveis()
@@ -305,6 +326,10 @@ public class Logic {
         return referenciaMB;
     }
     
+    public static Produto getSelectedProduto() {
+        return selectedProduto;
+    }
+    
     // UPDATES
     public static void updateUsernameCliente(String username)
     {
@@ -370,6 +395,23 @@ public class Logic {
         em.getTransaction().commit();
     }
     
+    public static void updateProduto(Produto produto) {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Query updateProdutoQuery = em.createQuery("UPDATE Produto SET "
+                + "nome = :nome, preco = :preco, descricao = :descricao "
+                + "WHERE id_produto = :id_produto");
+        updateProdutoQuery.setParameter("nome", produto.getNome()).
+                setParameter("preco", produto.getPreco()).
+                setParameter("descricao", produto.getDescricao()).
+                setParameter("id_produto", produto.getIdProduto());
+        
+        em.getTransaction().begin();
+        updateProdutoQuery.executeUpdate();
+        em.getTransaction().commit();
+    }
+    
     // OTHERS
     //------- Funçao de Teste ----------
     public static void printStuff()
@@ -421,6 +463,9 @@ public class Logic {
         System.out.println(selectedMesa.getEstado());
     }
     
+    public static void setSelectedProduto(Produto produto) {
+        Logic.selectedProduto = produto;
+    }
     
     //Verificar se duas strings sao iguais
     // TODO WTF qual é a utilidade desta funcao?
