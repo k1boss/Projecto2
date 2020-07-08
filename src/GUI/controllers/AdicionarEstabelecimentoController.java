@@ -53,7 +53,7 @@ public class AdicionarEstabelecimentoController implements Initializable {
             Main.changeScene("/GUI/resources/AdminEstabelecimentos.fxml");
             
             //criar stage de sucesso
-            Main.createStage("Sucesso","Estabelecimento efectuado com sucesso.",350,150);
+            Main.createStage("Sucesso","Estabelecimento criado com sucesso.",350,150);
        }
         else
         {

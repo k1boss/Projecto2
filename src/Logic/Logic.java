@@ -349,8 +349,9 @@ public class Logic {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
         
-        Query getEstabelecimentoByID = em.createNamedQuery("Cliente.findByIdEstabelecimento");
-        getEstabelecimentoByID.setParameter("IdEstabelecimento", idEstabelecimento);
+        
+        Query getEstabelecimentoByID = em.createNamedQuery("Estabelecimento.findByIdEstabelecimento");
+        getEstabelecimentoByID.setParameter("idEstabelecimento", idEstabelecimento);
         
         estab = (Estabelecimento) getEstabelecimentoByID.getSingleResult();
         
@@ -565,5 +566,63 @@ public class Logic {
         selectedEstab.setDescCodPostal(newDescCodPostal); 
     }
    
+         public static boolean mesaExists(BigInteger numMesa){
+      boolean exists;
+        
+        
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        
+        Query mesaExists = em.createNamedQuery("Estabelecimento.findByNumMesa");
+        mesaExists.setParameter("numMesa", numMesa);
+        
+        try
+        {
+            Object res;
+            res = (Object) mesaExists.getSingleResult();
+            if(res != null)
+            {
+                exists = true;
+            }
+            else
+            {
+                exists = false;
+            }
+        }
+        catch(Exception e)
+        {
+            exists = false;
+        }
+        
+        return exists;
+  }
+         
+         public static void insertMesa(Mesas mesa)
+    {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        em.getTransaction().begin();
+        em.persist(mesa);
+        em.getTransaction().commit();
+
+    }
+         
+    public static void apagaMesas(BigInteger numMesa){
+       
+         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Query apagaMesas = em.createNamedQuery("Mesas.findByNumMesa");
+        apagaMesas.setParameter("numMesa", numMesa);
+        
+        selectedMesa =(Mesas) apagaMesas.getSingleResult();
+         em.getTransaction().begin();
+
+        em.remove(selectedMesa);
+        em.getTransaction().commit();
+
+   }
    
 }

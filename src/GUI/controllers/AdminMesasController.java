@@ -74,13 +74,27 @@ public class AdminMesasController{
     
      public void adicionarBtnAction(ActionEvent event) throws Exception
     {
-         Main.changeScene("/GUI/resources/AdicionarEstabelecimento.fxml");  
+         Main.changeScene("/GUI/resources/AdicionarMesas.fxml");  
         
     }
     
     public void apagaBtnAction(ActionEvent event) throws Exception
     {
-        
+        Mesas mesa = new Mesas();
+      
+         
+      
+      
+      String numMesa2 = mesasListView.getSelectionModel().getSelectedItem().toString();
+       
+      int numMesa = Integer.valueOf(numMesa2);
+      
+      BigInteger bigInteger = BigInteger.valueOf(numMesa);
+      
+        Logic.apagaMesas(bigInteger);
+ 
+         Main.changeScene("/GUI/resources/MenuAdmin.fxml"); 
+         Main.createStage("Sucesso","Mesa removida com sucesso.",350,150);
     
     }
     
