@@ -33,9 +33,12 @@ public class Logic {
     private static final String PERSISTENCE_UNIT_NAME = "ProjectoPU";
     private static EntityManagerFactory factory;
     private static Cliente loggedCliente;
+    // Cliente escolhido em menu de escolher utilizadores
+    private static Cliente selectedClienteOnlyMenu;
     private static Estabelecimento selectedEstab;
     private static HashMap<BigDecimal,Integer> selectedProd;
     private static Mesas selectedMesa;
+    private static Produto selectedProduto;
     
     // LOGIN
     public static boolean login(String username, String password )
@@ -129,7 +132,56 @@ public class Logic {
         em.getTransaction().commit();
     }
     
+    public static void removeProduto(Produto produto) {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Query removerProdutoQuery = em.createQuery("DELETE FROM Produto WHERE id_produto = :id_produto");
+        removerProdutoQuery.setParameter("id_produto", produto.getIdProduto());
+        
+        em.getTransaction().begin();
+        removerProdutoQuery.executeUpdate();
+        em.getTransaction().commit();
+    }
+    
+    public static void insertNewProduto(int id_estabelecimento, String nome,
+                                     double preco, String descricao) {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Query fetchEstabelecimento = em.createNamedQuery("Estabelecimento.findByIdEstabelecimento");
+        fetchEstabelecimento.setParameter("idEstabelecimento", id_estabelecimento);
+        Estabelecimento estabelecimento = (Estabelecimento) fetchEstabelecimento.getSingleResult();
+        
+        Produto produto = new Produto();
+        produto.setIdEstabelecimento(estabelecimento);
+        produto.setNome(nome);
+        produto.setPreco(preco);
+        produto.setDescricao(descricao);
+        
+        em.getTransaction().begin();
+        em.persist(produto);
+        em.getTransaction().commit();
+    }
+    
     // TABLE SELECTS
+    public static List<Produto> fetchProdutosFromEstabelecimento() {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Query fetchProdutosfromEstabelecimentoQuery = em.createNamedQuery("Produto.findByIdEstabelecimento");
+        fetchProdutosfromEstabelecimentoQuery.setParameter("idEstabelecimento", selectedEstab);
+        return (List<Produto>) fetchProdutosfromEstabelecimentoQuery.getResultList();
+    }
+    
+    public static List<Cliente> fetchClientes() {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Query fetchClientesQuery = em.createQuery("SELECT * FROM Cliente WHERE 1=1");
+        return (List<Cliente>) fetchClientesQuery.getResultList();
+    }
+    
     public static ObservableList nomesEstabelecimentos()
     {
         ObservableList<String> results = null;
@@ -154,6 +206,13 @@ public class Logic {
         getEstabelecimento.setParameter("nome", nomeEstabelecimento);
         
         selectedEstab =(Estabelecimento) getEstabelecimento.getSingleResult();
+    }
+    
+    public static void escolherProduto(String nome_produto) {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Query getProduto = em.createNamedQuery("Produto.");
     }
     
     public static ObservableList getMesasDisponiveis()
@@ -216,6 +275,10 @@ public class Logic {
     }
     
     // GETTERS
+    public static String getEstabelecimentoNome() {
+        return selectedEstab.getNome();
+    }
+    
     public static void escolherProdutos(HashMap<BigDecimal, Integer> quantidades)
     {
         selectedProd = quantidades;
@@ -262,6 +325,10 @@ public class Logic {
     {
         int referenciaMB = (int)(Math.random() * (999999999 - 111111111 + 1) + 111111111);        
         return referenciaMB;
+    }
+    
+    public static Produto getSelectedProduto() {
+        return selectedProduto;
     }
     
     // UPDATES
@@ -329,6 +396,23 @@ public class Logic {
         em.getTransaction().commit();
     }
     
+    public static void updateProduto(Produto produto) {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Query updateProdutoQuery = em.createQuery("UPDATE Produto SET "
+                + "nome = :nome, preco = :preco, descricao = :descricao "
+                + "WHERE id_produto = :id_produto");
+        updateProdutoQuery.setParameter("nome", produto.getNome()).
+                setParameter("preco", produto.getPreco()).
+                setParameter("descricao", produto.getDescricao()).
+                setParameter("id_produto", produto.getIdProduto());
+        
+        em.getTransaction().begin();
+        updateProdutoQuery.executeUpdate();
+        em.getTransaction().commit();
+    }
+    
     // OTHERS
     //------- Funçao de Teste ----------
     public static void printStuff()
@@ -380,6 +464,13 @@ public class Logic {
         System.out.println(selectedMesa.getEstado());
     }
     
+    public static void setSelectedProduto(Produto produto) {
+        Logic.selectedProduto = produto;
+    }
+    
+    public static void setSelectedClienteOnlyMenu(Cliente cliente) {
+        Logic.selectedClienteOnlyMenu = cliente;
+    }
     
     //Verificar se duas strings sao iguais
     // TODO WTF qual é a utilidade desta funcao?

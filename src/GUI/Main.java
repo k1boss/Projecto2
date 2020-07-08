@@ -29,6 +29,7 @@ public class Main  extends Application{
 
     static private Stage primaryStage;
     static private Class clazz;
+    static public String next_scene_fxml;
     
     
     public static void main(String[] args) {
@@ -62,8 +63,14 @@ public class Main  extends Application{
     
     public static void changeScene(String fxml) throws Exception
     {
+        next_scene_fxml = null;
         Parent pane = FXMLLoader.load(clazz.getResource(fxml));
-        
+        primaryStage.getScene().setRoot(pane);
+    }
+    
+    public static void changeSceneAndSetNextScene(String fxml, String next_fxml) throws Exception {
+        next_scene_fxml = next_fxml;
+        Parent pane = FXMLLoader.load(clazz.getResource(fxml));
         primaryStage.getScene().setRoot(pane);
     }
     
