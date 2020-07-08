@@ -23,7 +23,7 @@ public class MenuAdminController {
     public void editarUtilizadoresButtonAction(ActionEvent event) throws Exception
     {
         // TODO choose scene
-        Main.changeScene("");
+        Main.changeScene("GUI/resources/admin/MenuEditarUtilizadores.fxml");
     }
             
     public void editarEstablecimentosButtonAction(ActionEvent event) throws Exception

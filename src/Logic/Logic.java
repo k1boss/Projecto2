@@ -33,6 +33,8 @@ public class Logic {
     private static final String PERSISTENCE_UNIT_NAME = "ProjectoPU";
     private static EntityManagerFactory factory;
     private static Cliente loggedCliente;
+    // Cliente escolhido em menu de escolher utilizadores
+    private static Cliente selectedClienteOnlyMenu;
     private static Estabelecimento selectedEstab;
     private static HashMap<BigDecimal,Integer> selectedProd;
     private static Mesas selectedMesa;
@@ -170,15 +172,14 @@ public class Logic {
         Query fetchProdutosfromEstabelecimentoQuery = em.createNamedQuery("Produto.findByIdEstabelecimento");
         fetchProdutosfromEstabelecimentoQuery.setParameter("idEstabelecimento", selectedEstab);
         return (List<Produto>) fetchProdutosfromEstabelecimentoQuery.getResultList();
+    }
+    
+    public static List<Cliente> fetchClientes() {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
         
-        /*
-        System.out.println(produtos);
-        List<String> nomes_produtos = new ArrayList<>();
-        for(Produto produto : produtos) {
-            nomes_produtos.add(produto.getNome());
-        }
-        return FXCollections.observableArrayList(nomes_produtos);
-        */
+        Query fetchClientesQuery = em.createQuery("SELECT * FROM Cliente WHERE 1=1");
+        return (List<Cliente>) fetchClientesQuery.getResultList();
     }
     
     public static ObservableList nomesEstabelecimentos()
@@ -465,6 +466,10 @@ public class Logic {
     
     public static void setSelectedProduto(Produto produto) {
         Logic.selectedProduto = produto;
+    }
+    
+    public static void setSelectedClienteOnlyMenu(Cliente cliente) {
+        Logic.selectedClienteOnlyMenu = cliente;
     }
     
     //Verificar se duas strings sao iguais

@@ -27,7 +27,6 @@ import javafx.scene.control.ListView;
 public class EscolherProdutoController
 {
     @FXML private ListView produtosList;
-    @FXML private Button escolherBtn;
     List<Produto> produtos;
     
     @FXML

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="GUI.controllers.admin.EscolherUtilizadorController">
+   <children>
+      <Text layoutX="247.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lista de Utilizadores" />
+      <ListView fx:id="clientesListView" layoutX="18.0" layoutY="22.0" prefHeight="299.0" prefWidth="566.0" />
+      <Button layoutX="18.0" layoutY="344.0" mnemonicParsing="false" onAction="#voltarButtonAction" text="Voltar" />
+      <Button fx:id="confirmarButtonAction" layoutX="509.0" layoutY="344.0" mnemonicParsing="false" text="Confirmar" />
+   </children>
+</AnchorPane>
