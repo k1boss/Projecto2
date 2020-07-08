@@ -12,6 +12,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -31,8 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Cliente.findByNif", query = "SELECT c FROM Cliente c WHERE c.nif = :nif"),
     @NamedQuery(name = "Cliente.findByEmail", query = "SELECT c FROM Cliente c WHERE c.email = :email"),
     @NamedQuery(name = "Cliente.findByPasswd", query = "SELECT c FROM Cliente c WHERE c.passwd = :passwd"),
-    @NamedQuery(name = "Cliente.findByUsername", query = "SELECT c FROM Cliente c WHERE c.username = :username"),
-    @NamedQuery(name = "Cliente.findByIsAdmin", query = "SELECT c FROM Cliente c WHERE c.isAdmin = :isAdmin")})
+    @NamedQuery(name = "Cliente.findByUsername", query = "SELECT c FROM Cliente c WHERE c.username = :username")})
 public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,9 +56,9 @@ public class Cliente implements Serializable {
     @Basic(optional = false)
     @Column(name = "USERNAME")
     private String username;
-    @Basic(optional = false)
-    @Column(name = "IS_ADMIN")
-    private short isAdmin;
+    @JoinColumn(name = "ID_TIPOUTILIZADOR", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private Tipoutilizador idTipoutilizador;
 
     public Cliente() {
     }
@@ -66,13 +67,12 @@ public class Cliente implements Serializable {
         this.idCliente = idCliente;
     }
 
-    public Cliente(BigDecimal idCliente, String nome, BigInteger nif, String passwd, String username, short isAdmin) {
+    public Cliente(BigDecimal idCliente, String nome, BigInteger nif, String passwd, String username) {
         this.idCliente = idCliente;
         this.nome = nome;
         this.nif = nif;
         this.passwd = passwd;
         this.username = username;
-        this.isAdmin = isAdmin;
     }
 
     public BigDecimal getIdCliente() {
@@ -123,12 +123,12 @@ public class Cliente implements Serializable {
         this.username = username;
     }
 
-    public short getIsAdmin() {
-        return isAdmin;
+    public Tipoutilizador getIdTipoutilizador() {
+        return idTipoutilizador;
     }
 
-    public void setIsAdmin(short isAdmin) {
-        this.isAdmin = isAdmin;
+    public void setIdTipoutilizador(Tipoutilizador idTipoutilizador) {
+        this.idTipoutilizador = idTipoutilizador;
     }
 
     @Override

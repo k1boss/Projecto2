@@ -5,6 +5,7 @@
  */
 package GUI.controllers;
 
+import DAL.Cliente;
 import GUI.Main;
 import javafx.event.ActionEvent;
 import Logic.Logic;
@@ -23,9 +24,12 @@ public class LoginController
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Label loginErrorLabel;
+  
+    
     
     public void registarButtonAction(ActionEvent event) throws Exception
     {
+        //Mudar scene
         Main.changeScene("/GUI/resources/Registar.fxml");
     }
     
@@ -37,20 +41,22 @@ public class LoginController
         if(exists)
         {
             boolean loggedIn = Logic.login(usernameField.getText(),passwordField.getText());
-        
+            int x = Logic.TipoFuncao();
+           
             if(loggedIn)
             {
-                if (Logic.loggedClientIsAdmin())
-                {
-                    Main.createStage("Success", "Login de Admin efectuado com sucesso", 350, 150);
-                    Main.changeScene("/GUI/resources/admin/MenuAdmin.fxml");
-                }
+                Main.createStage("Success", "O Login foi efectuado com sucesso.",350,150);
                 
-                else
-                {
-                    Main.createStage("Success", "O Login foi efectuado com sucesso.",350,150);
+                //Mudar scene
+                
+                
+                if(x == 1){
+                   Main.changeScene("/GUI/resources/MenuAdmin.fxml");
+               }else{
                     Main.changeScene("/GUI/resources/MenuCliente.fxml");
                 }
+                
+               //
             }
             else
             {
@@ -63,5 +69,11 @@ public class LoginController
             loginErrorLabel.setText("Utilizador não existe.");
             loginErrorLabel.setVisible(true);
         }
+        
+        
+        
+        
+        
+        
     }
 }

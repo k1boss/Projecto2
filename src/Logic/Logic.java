@@ -11,7 +11,10 @@ import DAL.Mesas;
 import DAL.Produto;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import static java.nio.file.Files.list;
+import static java.rmi.Naming.list;
 import java.util.ArrayList;
+import static java.util.Collections.list;
 import java.util.HashMap;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -20,7 +23,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import java.util.concurrent.ThreadLocalRandom;
+import static org.eclipse.persistence.jpa.jpql.utility.CollectionTools.list;
+
 
 /**
  *
@@ -33,18 +37,21 @@ public class Logic {
     private static final String PERSISTENCE_UNIT_NAME = "ProjectoPU";
     private static EntityManagerFactory factory;
     private static Cliente loggedCliente;
-    // Cliente escolhido em menu de escolher utilizadores
-    private static Cliente selectedClienteOnlyMenu;
     private static Estabelecimento selectedEstab;
     private static HashMap<BigDecimal,Integer> selectedProd;
     private static Mesas selectedMesa;
-    private static Produto selectedProduto;
+    public static Cliente verificar;
+    private static int  tipoUser = 0;
+
+   
     
-    // LOGIN
+    
+    
     public static boolean login(String username, String password )
     {
         boolean loggedIn = false;
         Cliente cli = null;
+       
         
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
@@ -52,6 +59,7 @@ public class Logic {
         
         Query getUser = em.createNamedQuery("Cliente.findByUsername");
         getUser.setParameter("username", username);
+        
         
         try
         {
@@ -63,15 +71,19 @@ public class Logic {
                  cli = (Cliente) res;
                  if(cli.getPasswd().equals(password))
                  {
-                    loggedIn = true;
-                    System.out.println("login ok!!");
-                    loggedCliente = cli;
+                     loggedIn = true;
+                  System.out.println("login ok!!");
+                  loggedCliente = cli;
+                 
+                tipoUser = cli.getIdTipoutilizador().getId();
+                System.out.println(tipoUser);
                  }
                  else
                  {
-                    loggedIn = false;
-                    System.out.println("Password Errada");
+                     loggedIn = false;
+                     System.out.println("Password Errada");
                  }
+
              }
         }
         catch(Exception e)
@@ -81,6 +93,12 @@ public class Logic {
         }
         
         return loggedIn;
+        
+    }
+    
+    public static int TipoFuncao()
+    {
+        return tipoUser;
     }
     
     public static void logout() throws Exception
@@ -93,10 +111,12 @@ public class Logic {
     
     public static boolean userExists(String username)
     {
-        boolean exists ;
+        boolean exists;
+        
         
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
+        
         
         Query getUser = em.createNamedQuery("Cliente.findByUsername");
         getUser.setParameter("username", username);
@@ -121,7 +141,6 @@ public class Logic {
         return exists;
     }
 
-    // TABLE INSERTS
     public static void insertCliente(Cliente cliente)
     {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -130,62 +149,14 @@ public class Logic {
         em.getTransaction().begin();
         em.persist(cliente);
         em.getTransaction().commit();
+
     }
     
-    public static void removeProduto(Produto produto) {
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        EntityManager em = factory.createEntityManager();
-        
-        Query removerProdutoQuery = em.createQuery("DELETE FROM Produto WHERE id_produto = :id_produto");
-        removerProdutoQuery.setParameter("id_produto", produto.getIdProduto());
-        
-        em.getTransaction().begin();
-        removerProdutoQuery.executeUpdate();
-        em.getTransaction().commit();
-    }
-    
-    public static void insertNewProduto(int id_estabelecimento, String nome,
-                                     double preco, String descricao) {
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        EntityManager em = factory.createEntityManager();
-        
-        Query fetchEstabelecimento = em.createNamedQuery("Estabelecimento.findByIdEstabelecimento");
-        fetchEstabelecimento.setParameter("idEstabelecimento", id_estabelecimento);
-        Estabelecimento estabelecimento = (Estabelecimento) fetchEstabelecimento.getSingleResult();
-        
-        Produto produto = new Produto();
-        produto.setIdEstabelecimento(estabelecimento);
-        produto.setNome(nome);
-        produto.setPreco(preco);
-        produto.setDescricao(descricao);
-        
-        em.getTransaction().begin();
-        em.persist(produto);
-        em.getTransaction().commit();
-    }
-    
-    // TABLE SELECTS
-    public static List<Produto> fetchProdutosFromEstabelecimento() {
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        EntityManager em = factory.createEntityManager();
-        
-        Query fetchProdutosfromEstabelecimentoQuery = em.createNamedQuery("Produto.findByIdEstabelecimento");
-        fetchProdutosfromEstabelecimentoQuery.setParameter("idEstabelecimento", selectedEstab);
-        return (List<Produto>) fetchProdutosfromEstabelecimentoQuery.getResultList();
-    }
-    
-    public static List<Cliente> fetchClientes() {
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        EntityManager em = factory.createEntityManager();
-        
-        Query fetchClientesQuery = em.createQuery("SELECT * FROM Cliente WHERE 1=1");
-        return (List<Cliente>) fetchClientesQuery.getResultList();
-    }
-    
-    public static ObservableList nomesEstabelecimentos()
+    public static  ObservableList nomesEstabelecimentos()
     {
         ObservableList<String> results = null;
 
+        
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
         
@@ -194,8 +165,29 @@ public class Logic {
         
         results = FXCollections.observableArrayList(nomes);
         
+        
         return results;
     }
+    
+        public static  ObservableList numMesas()
+    {
+        ObservableList<Mesas> results = null;
+        
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Query numMesas = em.createNamedQuery("Mesas.findAll"); 
+
+        
+        List<Mesas> list = numMesas.getResultList();
+     
+       
+        results = FXCollections.observableArrayList(list);
+        
+
+        return results;
+    }
+    
     
     public static void escolherEstabelecimento(String nomeEstabelecimento)
     {
@@ -206,14 +198,47 @@ public class Logic {
         getEstabelecimento.setParameter("nome", nomeEstabelecimento);
         
         selectedEstab =(Estabelecimento) getEstabelecimento.getSingleResult();
+       
     }
     
-    public static void escolherProduto(String nome_produto) {
+    public static void escolherProdutos(HashMap<BigDecimal, Integer> quantidades)
+    {
+        selectedProd = quantidades;
+    }
+    
+    public static Mesas getSelectedMesa()
+    {
+        return selectedMesa;
+    }
+    
+    /*
+    public static ObservableList getMesasDisponiveis()
+    {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
         
-        Query getProduto = em.createNamedQuery("Produto.");
+        ObservableList<String> results = null;
+        Estabelecimento selected = getSelectedEstab();
+        
+        Query getNumMesas = em.createNamedQuery("Mesas.findLivreByEstabelecimento");
+        getNumMesas.setParameter("idEstabelecimento", selected);
+        getNumMesas.setParameter("estado",0);
+        
+        List<BigInteger> list = getNumMesas.getResultList();
+        List<String> mesas = new ArrayList<>(list.size());
+        for(BigInteger myBigInt : list)
+        {
+            mesas.add(myBigInt.toString());
+        }
+        
+        
+        
+        results = FXCollections.observableArrayList(mesas);
+        
+        return results;
+        
     }
+    */
     
     public static ObservableList getMesasDisponiveis()
     {
@@ -231,6 +256,62 @@ public class Logic {
         results = FXCollections.observableArrayList(mesas);
         
         return results;
+        
+    }
+    
+    
+    //retornar cliente loggado
+    public static Cliente getLoggedCliente()
+    {
+        return loggedCliente;
+    }
+    
+    //retornar estabelecimento seleccionado
+    public static Estabelecimento getSelectedEstab()
+    {
+        return selectedEstab;
+    }
+    
+    //retornar lista de produtos seleccionados
+    public static HashMap<BigDecimal,Integer> getSelectedProd()
+    {
+        return selectedProd;
+    }
+    
+    
+    //------- Funçao de Teste ----------
+    public static void printStuff()
+    {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Estabelecimento selected = getSelectedEstab();
+        
+        Query getNumMesas = em.createNamedQuery("Mesas.findLivreByEstabelecimento");
+        getNumMesas.setParameter("idEstabelecimento", selected);
+        getNumMesas.setParameter("estado",0);
+        
+        List<BigInteger> list = getNumMesas.getResultList();
+         
+        List<String> mesas = new ArrayList<>(list.size());
+        for(BigInteger myInt : list)
+        {
+            mesas.add(myInt.toString());
+        }
+         
+         System.out.println(mesas);   
+    }
+    
+    //Verificar se duas strings sao iguais
+    public static boolean compareStrings(String firstString, String secondString)
+    {
+        boolean isEqual = false;
+        if(firstString.equals(secondString))
+        {
+            isEqual = true;
+        }
+        
+        return isEqual;
     }
     
     public static ObservableList getProdutos()
@@ -259,6 +340,22 @@ public class Logic {
         cli = (Cliente) getClienteByID.getSingleResult();
         
         return cli;
+        
+    }
+    
+       public static Estabelecimento getEstabelecimentoByID(BigDecimal idEstabelecimento)
+    {
+        Estabelecimento estab = new Estabelecimento();
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Query getEstabelecimentoByID = em.createNamedQuery("Cliente.findByIdEstabelecimento");
+        getEstabelecimentoByID.setParameter("IdEstabelecimento", idEstabelecimento);
+        
+        estab = (Estabelecimento) getEstabelecimentoByID.getSingleResult();
+        
+        return estab;
+        
     }
     
     public static Mesas getMesaByID(int idMesa)
@@ -274,64 +371,6 @@ public class Logic {
         return mesa;
     }
     
-    // GETTERS
-    public static String getEstabelecimentoNome() {
-        return selectedEstab.getNome();
-    }
-    
-    public static void escolherProdutos(HashMap<BigDecimal, Integer> quantidades)
-    {
-        selectedProd = quantidades;
-    }
-    
-    public static Mesas getSelectedMesa()
-    {
-        return selectedMesa;
-    }
-    
-    //retornar cliente loggado
-    public static Cliente getLoggedCliente()
-    {
-        return loggedCliente;
-    }
-    
-    //retornar estabelecimento seleccionado
-    public static Estabelecimento getSelectedEstab()
-    {
-        return selectedEstab;
-    }
-    
-    //retornar lista de produtos seleccionados
-    public static HashMap<BigDecimal,Integer> getSelectedProd()
-    {
-        return selectedProd;
-    }
-    
-    public static boolean loggedClientIsAdmin()
-    {
-        // Since there is no booleans for oracle sql, 0 is false, 1 is true
-        return Logic.loggedCliente.getIsAdmin() == 1;
-    }
-    
-    public static String getUsername (){
-        return loggedCliente.getUsername();
-    }
-    
-    public static Estabelecimento getSelectEstabelecimento(){
-        return selectedEstab;
-    }
-    
-    public static int getReferenciaMB()
-    {
-        int referenciaMB = (int)(Math.random() * (999999999 - 111111111 + 1) + 111111111);        
-        return referenciaMB;
-    }
-    
-    public static Produto getSelectedProduto() {
-        return selectedProduto;
-    }
-    
-    // UPDATES
     public static void updateUsernameCliente(String username)
     {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -339,8 +378,10 @@ public class Logic {
         em.getTransaction().begin();
         Query updateUsernameCliente =  em.createQuery("UPDATE Cliente SET username = :username " + "WHERE idCliente = :idCliente");
         updateUsernameCliente.setParameter("username", username).setParameter("idCliente",loggedCliente.getIdCliente()).executeUpdate();
+        
         em.getTransaction().commit();
     }
+    
     
     public static void updatePasswordCliente(String password)
     {
@@ -372,71 +413,6 @@ public class Logic {
         em.getTransaction().commit();
     }
     
-    public static void updateMesaToOcupado(int selectedMesaID)
-    {
-        //TODO
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        EntityManager em = factory.createEntityManager();
-        
-        em.getTransaction().begin();
-        Query updateEstadoMesa =  em.createQuery("UPDATE Mesas SET estado = :estado " + "WHERE idMesa = :idMesa");
-        updateEstadoMesa.setParameter("estado", 1).setParameter("idMesa",selectedMesaID).executeUpdate();
-        em.getTransaction().commit();
-    }
-    
-    public static void updateMesaToLivre(int selectedMesaID)
-    {
-        //TODO
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        EntityManager em = factory.createEntityManager();
-        
-        em.getTransaction().begin();
-        Query updateEstadoMesa =  em.createQuery("UPDATE Mesas SET estado = :estado " + "WHERE idMesa = :idMesa");
-        updateEstadoMesa.setParameter("estado", 0).setParameter("idMesa",selectedMesaID).executeUpdate();
-        em.getTransaction().commit();
-    }
-    
-    public static void updateProduto(Produto produto) {
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        EntityManager em = factory.createEntityManager();
-        
-        Query updateProdutoQuery = em.createQuery("UPDATE Produto SET "
-                + "nome = :nome, preco = :preco, descricao = :descricao "
-                + "WHERE id_produto = :id_produto");
-        updateProdutoQuery.setParameter("nome", produto.getNome()).
-                setParameter("preco", produto.getPreco()).
-                setParameter("descricao", produto.getDescricao()).
-                setParameter("id_produto", produto.getIdProduto());
-        
-        em.getTransaction().begin();
-        updateProdutoQuery.executeUpdate();
-        em.getTransaction().commit();
-    }
-    
-    // OTHERS
-    //------- Funçao de Teste ----------
-    public static void printStuff()
-    {
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        EntityManager em = factory.createEntityManager();
-        
-        Estabelecimento selected = getSelectedEstab();
-        
-        Query getNumMesas = em.createNamedQuery("Mesas.findLivreByEstabelecimento");
-        getNumMesas.setParameter("idEstabelecimento", selected);
-        getNumMesas.setParameter("estado",0);
-        
-        List<BigInteger> list = getNumMesas.getResultList();
-         
-        List<String> mesas = new ArrayList<>(list.size());
-        for(BigInteger myInt : list)
-        {
-            mesas.add(myInt.toString());
-        }
-         
-         System.out.println(mesas);   
-    }
-    
     public static void setLoggedClienteNome(String newNome)
     {
         loggedCliente.setNome(newNome);
@@ -457,6 +433,32 @@ public class Logic {
         loggedCliente.setEmail(newEmail);
     }
     
+    public static void updateMesaToOcupado(int selectedMesaID)
+    {
+        //TODO
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        em.getTransaction().begin();
+        Query updateEstadoMesa =  em.createQuery("UPDATE Mesas SET estado = :estado " + "WHERE idMesa = :idMesa");
+        updateEstadoMesa.setParameter("estado", 1).setParameter("idMesa",selectedMesaID).executeUpdate();
+        em.getTransaction().commit();
+        
+    }
+    
+    public static void updateMesaToLivre(int selectedMesaID)
+    {
+        //TODO
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        em.getTransaction().begin();
+        Query updateEstadoMesa =  em.createQuery("UPDATE Mesas SET estado = :estado " + "WHERE idMesa = :idMesa");
+        updateEstadoMesa.setParameter("estado", 0).setParameter("idMesa",selectedMesaID).executeUpdate();
+        em.getTransaction().commit();
+        
+    }
+    
     public static void escolherMesa(int idMesa)
     {
         selectedMesa = getMesaByID(idMesa);
@@ -464,53 +466,104 @@ public class Logic {
         System.out.println(selectedMesa.getEstado());
     }
     
-    public static void setSelectedProduto(Produto produto) {
-        Logic.selectedProduto = produto;
+    public static String getUsername (){
+        return loggedCliente.getUsername();
     }
     
-    public static void setSelectedClienteOnlyMenu(Cliente cliente) {
-        Logic.selectedClienteOnlyMenu = cliente;
+    public static Estabelecimento getSelectEstabelecimento(){
+        return selectedEstab;
     }
     
-    //Verificar se duas strings sao iguais
-    // TODO WTF qual é a utilidade desta funcao?
-    public static boolean compareStrings(String firstString, String secondString)
+  public static int getReferenciaMB()
     {
-        boolean isEqual = false;
-        if(firstString.equals(secondString))
+        int referenciaMB = (int)(Math.random() * (999999999 - 111111111 + 1) + 111111111);        
+        return referenciaMB;
+    }
+  
+  public static boolean estabExists(String numPorta){
+      boolean exists;
+        
+        
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        
+        Query getEstab = em.createNamedQuery("Estabelecimento.findByNumPorta");
+        getEstab.setParameter("numPorta", numPorta);
+        
+        try
         {
-            isEqual = true;
+            Object res;
+            res = (Object) getEstab.getSingleResult();
+            if(res != null)
+            {
+                exists = true;
+            }
+            else
+            {
+                exists = false;
+            }
+        }
+        catch(Exception e)
+        {
+            exists = false;
         }
         
-        return isEqual;
-    }
-    
-    /*
-    public static ObservableList getMesasDisponiveis()
+        return exists;
+  }
+  
+   public static void insertEstabelecimento(Estabelecimento estabelecimento)
     {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = factory.createEntityManager();
         
-        ObservableList<String> results = null;
-        Estabelecimento selected = getSelectedEstab();
-        
-        Query getNumMesas = em.createNamedQuery("Mesas.findLivreByEstabelecimento");
-        getNumMesas.setParameter("idEstabelecimento", selected);
-        getNumMesas.setParameter("estado",0);
-        
-        List<BigInteger> list = getNumMesas.getResultList();
-        List<String> mesas = new ArrayList<>(list.size());
-        for(BigInteger myBigInt : list)
-        {
-            mesas.add(myBigInt.toString());
-        }
-        
-        
-        
-        results = FXCollections.observableArrayList(mesas);
-        
-        return results;
-        
+        em.getTransaction().begin();
+        em.persist(estabelecimento);
+        em.getTransaction().commit();
+
     }
-    */
+
+   public static void apagaEstabelecimento(String nomeEstabelecimento){
+       
+         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+        
+        Query getEstabelecimento = em.createNamedQuery("Estabelecimento.findByNome");
+        getEstabelecimento.setParameter("nome", nomeEstabelecimento);
+        
+        selectedEstab =(Estabelecimento) getEstabelecimento.getSingleResult();
+         em.getTransaction().begin();
+
+        em.remove(selectedEstab);
+        em.getTransaction().commit();
+
+   }
+
+   
+ 
+   public static void editaEstabelecimento(String nome, String rua, String numPorta,String codPostal, String descCodPostal ){
+  
+         factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        EntityManager em = factory.createEntityManager();
+
+       
+        em.getTransaction().begin();
+        Query editaEstabelecimento =  em.createQuery("UPDATE Estabelecimento SET nome = :nome, rua = :rua, numPorta = :numPorta, codPostal = :codPostal, descCodPostal = :descCodPostal " + "WHERE idEstabelecimento = :idEstabelecimento");
+        editaEstabelecimento.setParameter("nome", nome).setParameter("rua", rua).setParameter("numPorta", numPorta).setParameter("codPostal", codPostal).setParameter("descCodPostal", descCodPostal).setParameter("idEstabelecimento",selectedEstab.getIdEstabelecimento()).executeUpdate();
+        em.getTransaction().commit();
+        
+        
+   }
+ 
+
+        public static void setSelectedEstabAll(String newNome,String newRua,String newNumPorta, String newCodPostal,String newDescCodPostal)
+    {
+        selectedEstab.setNome(newNome); 
+        selectedEstab.setRua(newRua); 
+        selectedEstab.setNumPorta(newNumPorta); 
+        selectedEstab.setCodPostal(newCodPostal); 
+        selectedEstab.setDescCodPostal(newDescCodPostal); 
+    }
+   
+   
 }
